@@ -435,3 +435,4 @@ MonoBehaviour:
   yPositionMax: 6
   xPositionMin: -11.3
   xPositionMax: 11.3
+  _playerProjectile: {fileID: 5757896240885765962, guid: 26bfa08245649ac4bab545bd3f70da2e, type: 3}

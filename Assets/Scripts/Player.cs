@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     [Tooltip("Define how fast the player moves.")]
     [SerializeField] private float _moveSpeed = 3.5f;
-
+    [Space(order = 1)]
     [SerializeField] private float randomMinimum = 0f;
     [SerializeField] private float randomMaximum = 10f;
 
@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float xPositionMin = -3.8f;
     [SerializeField] private float xPositionMax = 0;
 
+    [Header("Prefabs")]
+    [SerializeField] private GameObject _playerProjectile;
+
     private void Start()
     {
         transform.position = _startingPosition;
@@ -30,8 +33,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CalculateMovement();
-        
-
+        FirePlayerProjectile();
 
     }
 
@@ -61,5 +63,18 @@ public class Player : MonoBehaviour
 
         //do the move
         transform.Translate(direction * spot * Time.deltaTime);
+    }
+    private void FirePlayerProjectile()
+    {
+        if (_playerProjectile == null)
+        {
+            Debug.LogWarning("Player is trying to fire a projectile, but theres no prefab. Do you need a break?");
+            return;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Instantiate(_playerProjectile, transform.position, Quaternion.identity);
+        }
     }
 }
