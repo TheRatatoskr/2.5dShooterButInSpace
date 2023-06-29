@@ -11,7 +11,10 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector3 _startingPosition;
 
     [Tooltip("Define how fast the player moves.")]
-    [SerializeField] private float _moveSpeed = 3.5f;
+    [SerializeField] 
+    
+    private float _moveSpeed = 3.5f;
+    
     [Space(order = 1)]
     [SerializeField] private float randomMinimum = 0f;
     [SerializeField] private float randomMaximum = 10f;
@@ -23,8 +26,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float xPositionMin = -3.8f;
     [SerializeField] private float xPositionMax = 0;
 
-    [Header("Prefabs")]
+    [Header("Projectile Handling")]
+    [Tooltip("Object that the player currently fires.")]
     [SerializeField] private GameObject _playerProjectile;
+    [Tooltip("Speed that the projectile moves at.")]
+    [SerializeField] private float _projectileSpeed;
+    [Tooltip("How high up the projectile can travel")]
+    [SerializeField] private float _highestYPoint;
 
     private void Start()
     {
@@ -34,7 +42,6 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
         FirePlayerProjectile();
-
     }
 
     private void CalculateMovement()
@@ -74,7 +81,17 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            Instantiate(_playerProjectile, transform.position, Quaternion.identity);
+            //make zappy zappy.
+            //tell zappy to move up so many spots and die
+
+        }
+
+
+
+            GameObject playerProjectile = Instantiate(_playerProjectile, transform.position, Quaternion.identity);
+            PlayerProjectile projectile = playerProjectile.GetComponent<PlayerProjectile>();
+            projectile.Initialize(_projectileSpeed, _highestYPoint);
+
         }
     }
 }
