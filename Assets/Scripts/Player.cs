@@ -81,17 +81,17 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            //make zappy zappy.
-            //tell zappy to move up so many spots and die
+            GameObject playerProjectile = Instantiate(_playerProjectile, 
+                                                      transform.position, 
+                                                      Quaternion.identity);            
 
         }
 
 
 
-            GameObject playerProjectile = Instantiate(_playerProjectile, transform.position, Quaternion.identity);
-            PlayerProjectile projectile = playerProjectile.GetComponent<PlayerProjectile>();
-            projectile.Initialize(_projectileSpeed, _highestYPoint);
+        
+
 
         }
     }
-}
+

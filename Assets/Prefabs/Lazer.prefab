@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4028345578645229579}
   - component: {fileID: 7874042235601347917}
   - component: {fileID: 4608334353266921561}
-  - component: {fileID: 1582106143276736344}
+  - component: {fileID: 158563815685259922}
   m_Layer: 0
   m_Name: Lazer
   m_TagString: Untagged
@@ -108,7 +108,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1582106143276736344
+--- !u!114 &158563815685259922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,3 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9226e15153487ab428a93588a61bd9ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _moveSpeed: 8
+  _shotDistance: 11
+  _damageDealt: 5
