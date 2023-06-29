@@ -33,6 +33,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float _projectileSpeed;
     [Tooltip("How high up the projectile can travel")]
     [SerializeField] private float _highestYPoint;
+    [Tooltip("This changes the insatiate location for projects relative to the player")]
+    [SerializeField] private Vector3 _projectileStartOffset;
+
+    [Tooltip("How fast the player can shoot")]
+    [SerializeField] private float _fireRate = .5f;
+    private float _nextFire;
 
     private void Start()
     {
@@ -73,16 +79,17 @@ public class Player : MonoBehaviour
     }
     private void FirePlayerProjectile()
     {
+        //null check
         if (_playerProjectile == null)
         {
             Debug.LogWarning("Player is trying to fire a projectile, but theres no prefab. Do you need a break?");
             return;
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") &&)
         {
             GameObject playerProjectile = Instantiate(_playerProjectile, 
-                                                      transform.position, 
+                                                      transform.position + _projectileStartOffset, 
                                                       Quaternion.identity);            
 
         }

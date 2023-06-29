@@ -438,3 +438,4 @@ MonoBehaviour:
   _playerProjectile: {fileID: 5757896240885765962, guid: 26bfa08245649ac4bab545bd3f70da2e, type: 3}
   _projectileSpeed: 8
   _highestYPoint: 11
+  _projectStartOffset: {x: 0, y: 0.8, z: 0}
