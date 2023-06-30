@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
 
     [Tooltip("How fast the player can shoot")]
     [SerializeField] private float _fireRate = .5f;
-    private float _nextFire;
+    private float _canFire =-1f;
 
     private void Start()
     {
@@ -47,7 +47,12 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CalculateMovement();
-        FirePlayerProjectile();
+
+        if (Input.GetButtonDown("Jump") && Time.time > _canFire)
+        {
+            FirePlayerProjectile();
+        }
+
     }
 
     private void CalculateMovement()
@@ -86,19 +91,12 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if (Input.GetButtonDown("Jump") &&)
-        {
-            GameObject playerProjectile = Instantiate(_playerProjectile, 
+        //assign current time + delay
+        _canFire = Time.time + _fireRate;
+
+        GameObject playerProjectile = Instantiate(_playerProjectile, 
                                                       transform.position + _projectileStartOffset, 
                                                       Quaternion.identity);            
-
-        }
-
-
-
-        
-
-
-        }
     }
+}
 
