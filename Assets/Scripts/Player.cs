@@ -40,6 +40,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _fireRate = .5f;
     private float _canFire =-1f;
 
+    [Header("Stats")]
+    [SerializeField] private float _playerHealth = 5f;
+
     private void Start()
     {
         transform.position = _startingPosition;
@@ -125,6 +128,16 @@ public class Player : MonoBehaviour
     public void TakeDamage(float damage)
     {
         GetComponent<AudioSource>().Play();
+        _playerHealth = _playerHealth-damage;
+        if( _playerHealth <= 0 )
+        {
+            PlayerDeath();
+        }
+
+    }
+    private void PlayerDeath()
+    {
+        Destroy(this.gameObject);
     }
 
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class Laser : MonoBehaviour, IPlayerProjectile
 {
     [SerializeField]
     private float _moveSpeed;
@@ -13,17 +13,17 @@ public class Laser : MonoBehaviour
 
     private float _startingPosition;
 
-    private void ProjectileHitEnemy()
+    public void ProjectileHitEnemy()
+    {
+        Destroy(this.gameObject);
+    }
+
+    public void ProjectileHitWall()
     {
         //future implementation
     }
 
-    private void ProjectileHitWall()
-    {
-        //future implementation
-    }
-
-    private void ProjectileReachedMaxDistance()
+    public void ProjectileReachedMaxDistance()
     {
         Destroy(this.gameObject);
     }

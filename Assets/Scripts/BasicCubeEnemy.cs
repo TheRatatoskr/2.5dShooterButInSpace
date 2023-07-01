@@ -49,7 +49,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
                 transform.position.z);
         }
     }
-    public void IGotPwned()
+    public void HandleDestroyEnemy()
     {
         Destroy(this.gameObject);
 
@@ -65,11 +65,19 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
                 break;
             case "Player": 
                 Debug.Log("Player Tag");
-                other.GetComponent<Player>().TakeDamage(_contactDamage);
+
+                Player player = other.gameObject.GetComponent<Player>();
+                if (player != null) { player.TakeDamage(_contactDamage); }
+
                 break;
             case "PlayerProjectile":
                 Debug.Log("PlayerProjectile Tag");
-                IGotPwned();
+
+                IPlayerProjectile playerProjectile = other.gameObject.GetComponent<IPlayerProjectile>();
+                if (playerProjectile != null) { playerProjectile.ProjectileHitEnemy(); }
+
+                HandleDestroyEnemy();
+
                 break;
             case "EnemyProjectile":
                 Debug.Log("EnemyProjectile Tag");

@@ -7,5 +7,5 @@ public interface IEnemy
     
     public void HandleEnemyMovement();
     public void HandleScreenExit();
-    public void IGotPwned();
+    public void HandleDestroyEnemy();
 }
