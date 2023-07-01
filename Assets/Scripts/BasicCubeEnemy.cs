@@ -22,6 +22,8 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     [Header("Stats")]
     [SerializeField] private float _contactDamage = 1f;
 
+    //component variables
+
 
     public void HandleEnemyMovement()
     {
@@ -45,6 +47,36 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
                 Random.Range(_respawnLeftBound, _respawnRightBound),
                 _respawningLocation,
                 transform.position.z);
+        }
+    }
+    public void IGotPwned()
+    {
+        Destroy(this.gameObject);
+
+    }    
+    private void OnTriggerEnter(Collider other)
+    {
+        
+        Debug.Log("Collision:" + other.gameObject.name);
+        switch(other.gameObject.tag)
+        {
+            case "Enemy":
+                Debug.Log("Enemy Tag");
+                break;
+            case "Player": 
+                Debug.Log("Player Tag");
+                other.GetComponent<Player>().TakeDamage(_contactDamage);
+                break;
+            case "PlayerProjectile":
+                Debug.Log("PlayerProjectile Tag");
+                IGotPwned();
+                break;
+            case "EnemyProjectile":
+                Debug.Log("EnemyProjectile Tag");
+                break;
+            default:
+                Debug.Log(gameObject.name + " collided with something thats untagged");
+                break;
         }
     }
     private void Update()

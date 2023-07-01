@@ -98,5 +98,34 @@ public class Player : MonoBehaviour
                                                       transform.position + _projectileStartOffset, 
                                                       Quaternion.identity);            
     }
+    private void OnTriggerEnter(Collider other)
+    {
+
+        Debug.Log("Collision:" + other.gameObject.name);
+        switch (other.gameObject.tag)
+        {
+            case "Enemy":
+                Debug.Log("Enemy Tag");
+                break;
+            case "Player":
+                Debug.Log("Player Tag");
+                break;
+            case "PlayerProjectile":
+                Debug.Log("PlayerProjectile Tag");
+                break;
+            case "EnemyProjectile":
+                Debug.Log("EnemyProjectile Tag");
+                break;
+            default:
+                Debug.Log(gameObject.name + " collided with something thats untagged");
+                break;
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        GetComponent<AudioSource>().Play();
+    }
+
 }
 
