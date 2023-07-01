@@ -74,7 +74,6 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
                 IPlayerProjectile playerProjectile = other.gameObject.GetComponent<IPlayerProjectile>();
                 if (playerProjectile != null) { playerProjectile.ProjectileHitEnemy(); }
-
                 HandleDestroyEnemy();
 
                 break;

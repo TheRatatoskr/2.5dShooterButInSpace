@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float _playerHealth = 5f;
 
+    private SpawnManager _spawnManager;
+
     private void Start()
     {
         transform.position = _startingPosition;
@@ -57,7 +59,11 @@ public class Player : MonoBehaviour
         }
 
     }
+    public void InitializePlayer(SpawnManager spawnManager)
+    {
+        _spawnManager = spawnManager;
 
+    }
     private void CalculateMovement()
     {
         
@@ -137,6 +143,7 @@ public class Player : MonoBehaviour
     }
     private void PlayerDeath()
     {
+        _spawnManager.StopSpawningDoods();
         Destroy(this.gameObject);
     }
 

@@ -27,6 +27,8 @@ public class Laser : MonoBehaviour, IPlayerProjectile
     {
         Destroy(this.gameObject);
     }
+
+
     private void Start()
     {
         _startingPosition = transform.position.y;
