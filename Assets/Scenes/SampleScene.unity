@@ -442,6 +442,7 @@ MonoBehaviour:
   _highestYPoint: 11
   _projectileStartOffset: {x: 0, y: 0, z: 0}
   _fireRate: 0.5
+  _playerHealth: 5
 --- !u!54 &1145668796
 Rigidbody:
   m_ObjectHideFlags: 0

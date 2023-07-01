@@ -36,7 +36,6 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
             -_moveSpeed* Time.deltaTime,
             0));
 
-
     }
     public void HandleScreenExit()
     {
@@ -92,5 +91,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         HandleEnemyMovement();
         HandleScreenExit();
     }
+    
+
 
 }
