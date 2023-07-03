@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -45,18 +47,26 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
 
+    private Vector2 _currentMovement;
+
+    [SerializeField] private InputReader inputReader;
+
     private void Start()
     {
+        Debug.Log("Start called and events are subed");
+        inputReader.MovementKeysChanged += ChangeMovement;
+        inputReader.PrimaryFirePressed += FirePlayerProjectile;
+
         transform.position = _startingPosition;
     }
+    private void ChangeMovement(Vector2 newMovement)
+    {
+        _currentMovement = newMovement;
+    }
+
     private void Update()
     {
         CalculateMovement();
-
-        if (Input.GetButtonDown("Jump") && Time.time > _canFire)
-        {
-            FirePlayerProjectile();
-        }
 
     }
     public void InitializePlayer(SpawnManager spawnManager)
@@ -68,44 +78,44 @@ public class Player : MonoBehaviour
     {
         
         //clamp y movement
-        transform.position = new Vector3( transform.position.x, Mathf.Clamp(transform.position.y, yPositionMin, yPositionMax));
+        transform.position = new Vector2( transform.position.x, Mathf.Clamp(transform.position.y, yPositionMin, yPositionMax));
 
         //wrap x movement
         if (transform.position.x >= xPositionMax)
         {
-            transform.position = new Vector3(xPositionMin, transform.position.y);
+            transform.position = new Vector2(xPositionMin, transform.position.y);
         }
         else if (transform.position.x <= xPositionMin)
         {
-            transform.position = new Vector3(xPositionMax, transform.position.y);
+            transform.position = new Vector2(xPositionMax, transform.position.y);
         }
 
-        //Calculate a random movespeed on each frame.
-        float spot = Random.Range(randomMinimum, randomMaximum);
 
-        //determine the move
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
+        Debug.Log("I see joystick input as " + _currentMovement.ToString());
         //do the move
-        transform.Translate(direction * spot * Time.deltaTime);
+        transform.Translate(_currentMovement * _moveSpeed * Time.deltaTime);
     }
-    private void FirePlayerProjectile()
+
+
+    private void FirePlayerProjectile(bool buttonIsPressed)
     {
-        //null check
-        if (_playerProjectile == null)
+        if (buttonIsPressed && Time.time > _canFire)
         {
-            Debug.LogWarning("Player is trying to fire a projectile, but theres no prefab. Do you need a break?");
-            return;
+            //null check
+            if (_playerProjectile == null)
+            {
+                Debug.LogWarning("Player is trying to fire a projectile, but theres no prefab. Do you need a break?");
+                return;
+            }
+
+            //assign current time + delay
+            _canFire = Time.time + _fireRate;
+
+            GameObject playerProjectile = Instantiate(_playerProjectile,
+                                                          transform.position + _projectileStartOffset,
+                                                          Quaternion.identity);
         }
-
-        //assign current time + delay
-        _canFire = Time.time + _fireRate;
-
-        GameObject playerProjectile = Instantiate(_playerProjectile, 
-                                                      transform.position + _projectileStartOffset, 
-                                                      Quaternion.identity);            
     }
 
     private void OnTriggerEnter2D(Collider2D other)

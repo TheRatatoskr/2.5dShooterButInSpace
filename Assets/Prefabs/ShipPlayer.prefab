@@ -124,6 +124,7 @@ MonoBehaviour:
   _projectileStartOffset: {x: 0, y: 0, z: 0}
   _fireRate: 0.5
   _playerHealth: 5
+  inputReader: {fileID: 11400000, guid: 2252c0d3406a46c4c86e2267e288c2b6, type: 2}
 --- !u!82 &-7732817751635419904
 AudioSource:
   m_ObjectHideFlags: 0
