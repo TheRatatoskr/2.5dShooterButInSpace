@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Laser : MonoBehaviour, IPlayerProjectile
@@ -42,19 +43,21 @@ public class Laser : MonoBehaviour, IPlayerProjectile
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch(collision.gameObject.tag)
+        switch (collision.gameObject.tag)
         {
             case "Enemy"://not implemented
-                    ProjectileHitEnemy();
-                    break;
+                ProjectileHitEnemy();
+                break;
             case "Wall"://not implemented
-                    ProjectileHitWall();
-                    break;
-            default:Debug.Log("Projectile hit unknown item"); 
-                    break;
+                ProjectileHitWall();
+                break;
+            default:
+                Debug.Log("Projectile hit unknown item");
+                break;
 
         }
     }
+
 }
