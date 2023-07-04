@@ -25,6 +25,15 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyContainer;
 
+    private void Start()
+    {
+        //spawn the player
+        GameObject player = Instantiate(_player, transform.position, Quaternion.identity);
+        player.gameObject.GetComponent<Player>().InitializePlayer(this);
+
+        StartCoroutine(SpawnSomeDoods());
+    }
+
     IEnumerator SpawnSomeDoods()
     {
         while(_isSpawning)
@@ -39,14 +48,7 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(_minSpawnTime, _maxSpawnTime));
         }
     }
-    private void Start()
-    {
-        
-        GameObject player = Instantiate(_player, transform.position, Quaternion.identity);
-        player.gameObject.GetComponent<Player>().InitializePlayer(this);
 
-        StartCoroutine(SpawnSomeDoods());
-    }
     public void StopSpawningDoods()
     {
         _isSpawning = false;

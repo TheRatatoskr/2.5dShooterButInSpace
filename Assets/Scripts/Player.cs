@@ -16,15 +16,15 @@ public class Player : MonoBehaviour
     private float _moveSpeed = 3.5f;
     
     [Space(order = 1)]
-    [SerializeField] private float randomMinimum = 0f;
-    [SerializeField] private float randomMaximum = 10f;
+    [SerializeField] private float _randomMinimum = 0f;
+    [SerializeField] private float _randomMaximum = 10f;
 
     [Header("Player Clamping")]
-    [SerializeField] private float yPositionMin = -3.8f;
-    [SerializeField] private float yPositionMax = 0;
+    [SerializeField] private float _yPositionMin = -3.8f;
+    [SerializeField] private float _yPositionMax = 0;
     [Space(order = 1)]
-    [SerializeField] private float xPositionMin = -3.8f;
-    [SerializeField] private float xPositionMax = 0;
+    [SerializeField] private float _xPositionMin = -3.8f;
+    [SerializeField] private float _xPositionMax = 0;
 
     [Header("Projectile Handling")]
     [Tooltip("Object that the player currently fires.")]
@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     {
         transform.position = _startingPosition;
     }
+
     private void Update()
     {
         CalculateMovement();
@@ -58,54 +59,6 @@ public class Player : MonoBehaviour
             FirePlayerProjectile();
         }
 
-    }
-    public void InitializePlayer(SpawnManager spawnManager)
-    {
-        _spawnManager = spawnManager;
-
-    }
-    private void CalculateMovement()
-    {
-        
-        //clamp y movement
-        transform.position = new Vector3( transform.position.x, Mathf.Clamp(transform.position.y, yPositionMin, yPositionMax));
-
-        //wrap x movement
-        if (transform.position.x >= xPositionMax)
-        {
-            transform.position = new Vector3(xPositionMin, transform.position.y);
-        }
-        else if (transform.position.x <= xPositionMin)
-        {
-            transform.position = new Vector3(xPositionMax, transform.position.y);
-        }
-
-        //Calculate a random movespeed on each frame.
-        float spot = Random.Range(randomMinimum, randomMaximum);
-
-        //determine the move
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-
-        //do the move
-        transform.Translate(direction * spot * Time.deltaTime);
-    }
-    private void FirePlayerProjectile()
-    {
-        //null check
-        if (_playerProjectile == null)
-        {
-            Debug.LogWarning("Player is trying to fire a projectile, but theres no prefab. Do you need a break?");
-            return;
-        }
-
-        //assign current time + delay
-        _canFire = Time.time + _fireRate;
-
-        GameObject playerProjectile = Instantiate(_playerProjectile, 
-                                                      transform.position + _projectileStartOffset, 
-                                                      Quaternion.identity);            
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -132,6 +85,60 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void InitializePlayer(SpawnManager spawnManager)
+    {
+        _spawnManager = spawnManager;
+
+    }
+
+    private void CalculateMovement()
+    {
+        //Calculate a random movespeed on each frame.
+        float spot = Random.Range(_randomMinimum, _randomMaximum);
+
+        //determine the move
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
+        //do the move
+        transform.Translate(direction * spot * Time.deltaTime);
+
+        //clamp y movement
+        transform.position = new Vector3( transform.position.x, Mathf.Clamp(transform.position.y, _yPositionMin, _yPositionMax));
+
+        //wrap x movement
+        if (transform.position.x >= _xPositionMax)
+        {
+            transform.position = new Vector3(_xPositionMin, transform.position.y);
+        }
+        else if (transform.position.x <= _xPositionMin)
+        {
+            transform.position = new Vector3(_xPositionMax, transform.position.y);
+        }
+
+
+    }
+
+    private void FirePlayerProjectile()
+    {
+        //null check
+        if (_playerProjectile == null)
+        {
+            Debug.LogWarning("Player is trying to fire a projectile, but theres no prefab. Do you need a break?");
+            return;
+        }
+
+        //assign current time + delay
+        _canFire = Time.time + _fireRate;
+
+        GameObject playerProjectile = Instantiate(_playerProjectile, 
+                                                      transform.position + _projectileStartOffset, 
+                                                      Quaternion.identity);            
+    }
+
+
+
     public void TakeDamage(float damage)
     {
         GetComponent<AudioSource>().Play();
@@ -142,6 +149,7 @@ public class Player : MonoBehaviour
         }
 
     }
+
     private void PlayerDeath()
     {
         _spawnManager.StopSpawningDoods();

@@ -14,21 +14,6 @@ public class Laser : MonoBehaviour, IPlayerProjectile
 
     private float _startingPosition;
 
-    public void ProjectileHitEnemy()
-    {
-        Destroy(this.gameObject);
-    }
-
-    public void ProjectileHitWall()
-    {
-        //future implementation
-    }
-
-    public void ProjectileReachedMaxDistance()
-    {
-        Destroy(this.gameObject);
-    }
-
 
     private void Start()
     {
@@ -59,5 +44,21 @@ public class Laser : MonoBehaviour, IPlayerProjectile
 
         }
     }
+
+    public void ProjectileHitEnemy()
+    {
+        Destroy(this.gameObject);
+    }
+
+    public void ProjectileHitWall()
+    {
+        //future implementation
+    }
+
+    public void ProjectileReachedMaxDistance()
+    {
+        Destroy(this.gameObject);
+    }
+
 
 }

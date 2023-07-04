@@ -24,49 +24,27 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     //component variables
 
-
-    public void HandleEnemyMovement()
+    private void Update()
     {
-        //calculate the left or right shuffle
-        float shuffle = Random.Range(-1 * _maxShuffle, _maxShuffle);
-
-        //do the move
-        transform.Translate(new Vector3(
-            _crabSpeed * shuffle * Time.deltaTime,
-            -_moveSpeed* Time.deltaTime,
-            0));
-
+        HandleEnemyMovement();
+        HandleScreenExit();
     }
-    public void HandleScreenExit()
-    {
-        if(transform.position.y < _maxDownDistance)
-        {
-            //place enemy at location off of the top of the screen
-            transform.position = new Vector3(
-                Random.Range(_respawnLeftBound, _respawnRightBound),
-                _respawningLocation,
-                transform.position.z);
-        }
-    }
-    public void HandleDestroyEnemy()
-    {
-        Destroy(this.gameObject);
 
-    }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
+
         Debug.Log("Collision:" + other.gameObject.name);
-        switch(other.gameObject.tag)
+        switch (other.gameObject.tag)
         {
             case "Enemy":
                 Debug.Log("Enemy Tag");
                 break;
-            case "Player": 
+            case "Player":
                 Debug.Log("Player Tag");
 
                 Player player = other.gameObject.GetComponent<Player>();
                 if (player != null) { player.TakeDamage(_contactDamage); }
+                Destroy(this.gameObject);
 
                 break;
             case "PlayerProjectile":
@@ -85,12 +63,34 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
                 break;
         }
     }
-    private void Update()
+
+    public void HandleEnemyMovement()
     {
-        HandleEnemyMovement();
-        HandleScreenExit();
+        //calculate the left or right shuffle
+        float shuffle = Random.Range(-1 * _maxShuffle, _maxShuffle);
+        float xMotion = _crabSpeed * shuffle * Time.deltaTime;
+
+        float yMotion = -_moveSpeed * Time.deltaTime;
+
+        //do the move
+        transform.Translate(new Vector3(xMotion,yMotion,0));
+
     }
-    
 
+    public void HandleScreenExit()
+    {
+        if(transform.position.y < _maxDownDistance)
+        {
+            //place enemy at location off of the top of the screen
+            transform.position = new Vector3(
+                Random.Range(_respawnLeftBound, _respawnRightBound),
+                _respawningLocation,
+                transform.position.z);
+        }
+    }
 
+    public void HandleDestroyEnemy()
+    {
+        Destroy(this.gameObject);
+    }
 }

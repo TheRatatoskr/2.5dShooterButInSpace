@@ -34,7 +34,7 @@ Transform:
   m_Children:
   - {fileID: 3094991293662716584}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &139456731028971357
 Rigidbody2D:
@@ -95,8 +95,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.021066844, y: 0.027439117}
-  m_Size: {x: 1.4034859, y: 4.083186}
+  m_Offset: {x: 0.021066874, y: -0.0024927855}
+  m_Size: {x: 0.84475595, y: 1.9879487}
   m_Direction: 0
 --- !u!114 &7496167227269896727
 MonoBehaviour:
@@ -112,12 +112,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startingPosition: {x: 0, y: 0, z: 0}
   _moveSpeed: 3.5
-  randomMinimum: 0
-  randomMaximum: 10
-  yPositionMin: -3.8
-  yPositionMax: 6
-  xPositionMin: -11.3
-  xPositionMax: 11.3
+  _randomMinimum: 0
+  _randomMaximum: 10
+  _yPositionMin: -3.8
+  _yPositionMax: 10
+  _xPositionMin: -10
+  _xPositionMax: 10
   _playerProjectile: {fileID: 8749097590140838528, guid: 8209140ef1e0e9b4f940e34c52d1590f, type: 3}
   _projectileSpeed: 8
   _highestYPoint: 11
@@ -246,7 +246,7 @@ Transform:
   m_GameObject: {fileID: 6438728316197412131}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 547851187106894991}
@@ -290,8 +290,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1569190831
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1b4a8fdd39d3a45d0a9ee484ad6800ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
