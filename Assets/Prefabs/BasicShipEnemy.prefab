@@ -67,8 +67,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02727741, y: 0}
-  m_Size: {x: 1.5001754, y: 2.8185}
+  m_Offset: {x: -0.0014720559, y: 0.032256722}
+  m_Size: {x: 1.1130944, y: 1.5153277}
   m_Direction: 0
 --- !u!50 &2097833809112438413
 Rigidbody2D:
@@ -117,6 +117,8 @@ MonoBehaviour:
   _respawnLeftBound: -10
   _respawnRightBound: 10
   _contactDamage: 1
+  _anim: {fileID: 3272522252915376288}
+  _destroyObjectDelay: 2.8
 --- !u!1 &2273853802632177185
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5863536412994766240}
   - component: {fileID: 4054242486553207816}
+  - component: {fileID: 3272522252915376288}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -201,3 +204,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &3272522252915376288
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273853802632177185}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ab32e0ac59428944690ed1f17516dd4e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

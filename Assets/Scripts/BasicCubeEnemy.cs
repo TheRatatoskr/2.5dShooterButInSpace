@@ -24,7 +24,10 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     private SpawnManager _spawnManager;
 
-    //component variables
+    [Header("Animation Controls")]
+    [SerializeField] private Animator _anim;
+    [SerializeField] private float _destroyObjectDelay = 2.8f;
+    
 
     private void Update()
     {
@@ -105,6 +108,10 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     public void HandleEnemyDeath()
     {
-        Destroy(this.gameObject);
+        _anim.SetTrigger("OnEnemyWentBoom");
+        _contactDamage = 0;
+        _moveSpeed = 0f;
+        _crabSpeed = 0f;
+        Destroy(this.gameObject, _destroyObjectDelay);
     }
 }
