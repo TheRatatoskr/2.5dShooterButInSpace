@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -31,16 +32,37 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyContainer;
     [SerializeField] private GameObject _powerUpContainer;
 
+    [SerializeField] private GameObject _uiManager;
+    private UIManager _ui;
+
+    private int _currentScore = 0;
+
+    private bool _allowRestart = false;
+
     private void Start()
     {
+        //spawn the UIManager
+        GameObject uiManager = Instantiate(_uiManager, transform.position, Quaternion.identity);
+        _ui = uiManager.GetComponent<UIManager>();
+
         //spawn the player
         GameObject player = Instantiate(_player, transform.position, Quaternion.identity);
-        player.gameObject.GetComponent<Player>().InitializePlayer(this);
+        player.gameObject.GetComponent<Player>().InitializePlayer(this, uiManager.GetComponent<UIManager>());
+
+
+
 
         StartCoroutine(SpawnSomeDoods());
         StartCoroutine(SpawnSomePowerUp());
     }
 
+    private void Update()
+    {
+        if (_allowRestart && Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
     IEnumerator SpawnSomeDoods()
     {
         while(_isSpawning)
@@ -51,6 +73,7 @@ public class SpawnManager : MonoBehaviour
             
 
             newEnemy.transform.parent = _enemyContainer.transform;
+            newEnemy.GetComponent<IEnemy>().InitializeEnemy(this);
 
             yield return new WaitForSeconds(Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime));
         }
@@ -75,5 +98,12 @@ public class SpawnManager : MonoBehaviour
     public void StopSpawningDoods()
     {
         _isSpawning = false;
+        _allowRestart = true;
+
+    }
+    public void AMurderWasReported()
+    {
+        _currentScore++;
+        _ui.ChangePointText(_currentScore);
     }
 }

@@ -45,24 +45,26 @@ public class Player : MonoBehaviour
     private const int SINGLE_LASER = 0;
     private const int TRIPLE_LASER = 1;
     private const int SPEED_UP = 11;
+    private const int SHIELD_UP = 21;
     private int _currentPower;
 
+    [SerializeField] private GameObject _shieldSprite;
+    private bool _isShielded = false;
 
     [Tooltip("How fast the player can shoot")]
     [SerializeField] private float _fireRate = .5f;
     private float _canFire =-1f;
 
     [Header("Stats")]
-    [SerializeField] private float _playerHealth = 5f;
+    [SerializeField] private int _playerHealth = 3;
 
     private SpawnManager _spawnManager;
-
-
-
+    private UIManager _uiManager;
 
     private void Start()
     {
         transform.position = _startingPosition;
+        _shieldSprite.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -83,19 +85,20 @@ public class Player : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Enemy":
-                Debug.Log("Enemy Tag");
+
+
                 break;
             case "Player":
-                Debug.Log("Player Tag");
+
                 break;
             case "PlayerProjectile":
-                Debug.Log("PlayerProjectile Tag");
+
                 break;
             case "EnemyProjectile":
-                Debug.Log("EnemyProjectile Tag");
+
                 break;
             case "PlayerPowerUp":
-                Debug.Log("PlayerPowerUp Tag.");
+
                 IPowerUp powerUp = other.gameObject.GetComponent<IPowerUp>();
                 CollectedPowerUp(powerUp.PlayerPickedMeUp());
                 powerUp.PowerUpDespawn();
@@ -108,10 +111,10 @@ public class Player : MonoBehaviour
 
 
 
-    public void InitializePlayer(SpawnManager spawnManager)
+    public void InitializePlayer(SpawnManager spawnManager, UIManager uIManager)
     {
         _spawnManager = spawnManager;
-
+        _uiManager = uIManager;
     }
 
     private void CalculateMovement()
@@ -160,12 +163,23 @@ public class Player : MonoBehaviour
 
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         GetComponent<AudioSource>().Play();
 
+        //handle shield
+        if (_isShielded)
+        {
+            _isShielded = false;
+            _shieldSprite.SetActive(false);
+            return;
+        }
+
+        _uiManager.ChangeLivesSprite(_playerHealth);
+
         //handle health
         _playerHealth = _playerHealth-damage;
+        Debug.Log("Player health changed, its now " + _playerHealth.ToString());
         if( _playerHealth <= 0 )
         {
             PlayerDeath();
@@ -189,6 +203,7 @@ public class Player : MonoBehaviour
     private void PlayerDeath()
     {
         _spawnManager.StopSpawningDoods();
+        _uiManager.DisplayGameOverScreen();
         Destroy(this.gameObject);
     }
 
@@ -202,6 +217,9 @@ public class Player : MonoBehaviour
                 break;
             case SPEED_UP:
                 SpeedUp();
+                break;
+            case SHIELD_UP:
+                ShieldUp();
                 break;
             default: break;
         }
@@ -221,6 +239,11 @@ public class Player : MonoBehaviour
     private void SpeedUp()
     {
         _currentMoveSpeed = _boostedSpeed;
+    }
+    private void ShieldUp()
+    {
+        _isShielded = true;
+        _shieldSprite.SetActive(true);
     }
 }
 

@@ -20,7 +20,9 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     [SerializeField] private float _respawnRightBound;
 
     [Header("Stats")]
-    [SerializeField] private float _contactDamage = 1f;
+    [SerializeField] private int _contactDamage = 1;
+
+    private SpawnManager _spawnManager;
 
     //component variables
 
@@ -37,31 +39,37 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         switch (other.gameObject.tag)
         {
             case "Enemy":
-                Debug.Log("Enemy Tag");
+
                 break;
             case "Player":
-                Debug.Log("Player Tag");
+
 
                 Player player = other.gameObject.GetComponent<Player>();
                 if (player != null) { player.TakeDamage(_contactDamage); }
-                Destroy(this.gameObject);
+                HandleEnemyDeath();
 
                 break;
             case "PlayerProjectile":
-                Debug.Log("PlayerProjectile Tag");
 
+                
                 IPlayerProjectile playerProjectile = other.gameObject.GetComponent<IPlayerProjectile>();
                 if (playerProjectile != null) { playerProjectile.ProjectileHitEnemy(); }
-                HandleDestroyEnemy();
+                HandleEnemyIsShotByPlayer();
 
                 break;
             case "EnemyProjectile":
-                Debug.Log("EnemyProjectile Tag");
+
                 break;
             default:
                 Debug.Log(gameObject.name + " collided with something thats untagged");
                 break;
         }
+    }
+
+
+    public void InitializeEnemy(SpawnManager spawnManager)
+    {
+        _spawnManager = spawnManager;
     }
 
     public void HandleEnemyMovement()
@@ -89,7 +97,13 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         }
     }
 
-    public void HandleDestroyEnemy()
+    public void HandleEnemyIsShotByPlayer()
+    {
+        _spawnManager.AMurderWasReported();
+        HandleEnemyDeath();
+    }
+
+    public void HandleEnemyDeath()
     {
         Destroy(this.gameObject);
     }
