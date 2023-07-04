@@ -136,9 +136,13 @@ PrefabInstance:
       value: SpawnManager
       objectReference: {fileID: 0}
     - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
-      propertyPath: _player
-      value: 
-      objectReference: {fileID: 3977341810560206084, guid: 0e23f7c96463f6945a66d9867687500f, type: 3}
+      propertyPath: _maxPowerUpSpawnTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
+      propertyPath: _minPowerUpSpawnTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6522001502382919053, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
       propertyPath: m_RootOrder
       value: 2

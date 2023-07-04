@@ -10,11 +10,14 @@ public class Player : MonoBehaviour
     [Tooltip("Define the starting position of the player.")]
     [SerializeField] private Vector3 _startingPosition;
 
-    [Tooltip("Define how fast the player moves.")]
-    [SerializeField] 
-    
-    private float _moveSpeed = 3.5f;
-    
+    private float _currentMoveSpeed = 3.5f;
+    [Tooltip("Define how fast the player moves normally.")]
+    [SerializeField] private float _normalMoveSpeed = 3.5f;
+    [Tooltip("Define how fast the player moves speed up.")]
+    [SerializeField] private float _boostedSpeed = 10f;
+
+
+
     [Space(order = 1)]
     [SerializeField] private float _randomMinimum = 0f;
     [SerializeField] private float _randomMaximum = 10f;
@@ -27,14 +30,23 @@ public class Player : MonoBehaviour
     [SerializeField] private float _xPositionMax = 0;
 
     [Header("Projectile Handling")]
-    [Tooltip("Object that the player currently fires.")]
-    [SerializeField] private GameObject _playerProjectile;
+
     [Tooltip("Speed that the projectile moves at.")]
     [SerializeField] private float _projectileSpeed;
     [Tooltip("How high up the projectile can travel")]
     [SerializeField] private float _highestYPoint;
     [Tooltip("This changes the insatiate location for projects relative to the player")]
     [SerializeField] private Vector3 _projectileStartOffset;
+
+    [Tooltip("Object that the player currently fires.")]
+    [SerializeField] private GameObject _playerProjectile;
+
+    [SerializeField] private List<GameObject> _projectileLists;
+    private const int SINGLE_LASER = 0;
+    private const int TRIPLE_LASER = 1;
+    private const int SPEED_UP = 11;
+    private int _currentPower;
+
 
     [Tooltip("How fast the player can shoot")]
     [SerializeField] private float _fireRate = .5f;
@@ -44,6 +56,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _playerHealth = 5f;
 
     private SpawnManager _spawnManager;
+
+
+
 
     private void Start()
     {
@@ -79,11 +94,19 @@ public class Player : MonoBehaviour
             case "EnemyProjectile":
                 Debug.Log("EnemyProjectile Tag");
                 break;
+            case "PlayerPowerUp":
+                Debug.Log("PlayerPowerUp Tag.");
+                IPowerUp powerUp = other.gameObject.GetComponent<IPowerUp>();
+                CollectedPowerUp(powerUp.PlayerPickedMeUp());
+                powerUp.PowerUpDespawn();
+                break;
             default:
                 Debug.Log(gameObject.name + " collided with something thats untagged");
                 break;
         }
     }
+
+
 
     public void InitializePlayer(SpawnManager spawnManager)
     {
@@ -93,8 +116,6 @@ public class Player : MonoBehaviour
 
     private void CalculateMovement()
     {
-        //Calculate a random movespeed on each frame.
-        float spot = Random.Range(_randomMinimum, _randomMaximum);
 
         //determine the move
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -102,7 +123,7 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
         //do the move
-        transform.Translate(direction * spot * Time.deltaTime);
+        transform.Translate(direction * _currentMoveSpeed * Time.deltaTime);
 
         //clamp y movement
         transform.position = new Vector3( transform.position.x, Mathf.Clamp(transform.position.y, _yPositionMin, _yPositionMax));
@@ -142,10 +163,25 @@ public class Player : MonoBehaviour
     public void TakeDamage(float damage)
     {
         GetComponent<AudioSource>().Play();
+
+        //handle health
         _playerHealth = _playerHealth-damage;
         if( _playerHealth <= 0 )
         {
             PlayerDeath();
+        }
+
+        //handle progressive powerups
+        if (_currentPower > 0 ) 
+        {
+            _currentPower--;
+            _playerProjectile = _projectileLists[_currentPower];
+        }
+
+        //handle speed down
+        if(_currentMoveSpeed == _boostedSpeed)
+        {
+            _currentMoveSpeed = _normalMoveSpeed;
         }
 
     }
@@ -156,5 +192,35 @@ public class Player : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private void CollectedPowerUp(int whichPowerUp)
+    {
+
+        switch (whichPowerUp)
+        {
+            case TRIPLE_LASER:
+                LaserPowerUp();
+                break;
+            case SPEED_UP:
+                SpeedUp();
+                break;
+            default: break;
+        }
+        
+    }
+
+    private void LaserPowerUp()
+    {
+        if (_currentPower == _projectileLists.Count)
+        {
+            return;
+        }
+
+        _currentPower++;
+        _playerProjectile = _projectileLists[_currentPower];
+    }
+    private void SpeedUp()
+    {
+        _currentMoveSpeed = _boostedSpeed;
+    }
 }
 

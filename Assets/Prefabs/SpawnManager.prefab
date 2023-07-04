@@ -30,6 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5038358671313762599}
+  - {fileID: 5212047569332598906}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,14 +50,51 @@ MonoBehaviour:
   - {fileID: 1079966519799618278, guid: e9e7b38202d251346afb823810ec06a0, type: 3}
   - {fileID: 1079966519799618278, guid: e9e7b38202d251346afb823810ec06a0, type: 3}
   - {fileID: 1079966519799618278, guid: e9e7b38202d251346afb823810ec06a0, type: 3}
+  _powerUpList:
+  - {fileID: 1012131159974250143, guid: 14176a2b39a95744a9b92b189239f2ac, type: 3}
+  - {fileID: 5536317213161542108, guid: 15a8d592c374c31448a8214f0e33744d, type: 3}
   _spawnLocationY: 11
   _spawnLocationXLeft: -10
   _spawnLocationXRight: 10
   _isSpawning: 1
-  _minSpawnTime: 1
-  _maxSpawnTime: 5
-  _player: {fileID: 810138114258952628, guid: 48ee6be786483f54ab1cab49884b9f49, type: 3}
+  _minEnemySpawnTime: 1
+  _maxEnemySpawnTime: 5
+  _minPowerUpSpawnTime: 10
+  _maxPowerUpSpawnTime: 30
+  _player: {fileID: 3977341810560206084, guid: 0e23f7c96463f6945a66d9867687500f, type: 3}
   _enemyContainer: {fileID: 7104604127093432861}
+  _powerUpContainer: {fileID: 2577323476948049230}
+--- !u!1 &2577323476948049230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5212047569332598906}
+  m_Layer: 0
+  m_Name: PowerUps
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5212047569332598906
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2577323476948049230}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6522001502382919053}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7104604127093432861
 GameObject:
   m_ObjectHideFlags: 0
