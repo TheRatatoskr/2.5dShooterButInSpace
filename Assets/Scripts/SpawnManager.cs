@@ -60,7 +60,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (_allowRestart && Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
     IEnumerator SpawnSomeDoods()
