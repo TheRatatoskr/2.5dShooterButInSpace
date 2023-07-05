@@ -58,6 +58,13 @@ public class Player : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private int _playerHealth = 3;
 
+    [Header("Player Damage Animations")]
+    [SerializeField] private GameObject _leftEngine;
+    [SerializeField] private GameObject _rightEngine;
+
+    private bool _engineFireEnabled = false;
+    private int _secondEngineFire;
+
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
 
@@ -180,10 +187,33 @@ public class Player : MonoBehaviour
         //handle health
         _playerHealth = _playerHealth-damage;
         Debug.Log("Player health changed, its now " + _playerHealth.ToString());
-        if( _playerHealth <= 0 )
+
+        if ( _playerHealth <= 0 )
         {
             PlayerDeath();
+            return;
+            
         }
+
+        //handle engine fire animation
+        int randomEngin = Random.Range(0, 1);
+        if (_engineFireEnabled)
+        {
+            randomEngin = _secondEngineFire;
+        }
+        if (randomEngin == 0)
+        {
+                _leftEngine.SetActive(true);
+                _secondEngineFire = 1;
+                _engineFireEnabled = true;
+        }
+        else if (randomEngin == 1)
+        {
+            _rightEngine.SetActive(true);
+            _secondEngineFire = 0;
+            _engineFireEnabled = true;
+        }
+        
 
         //handle progressive powerups
         if (_currentPower > 0 ) 

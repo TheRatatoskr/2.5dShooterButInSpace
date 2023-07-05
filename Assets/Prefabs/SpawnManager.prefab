@@ -65,6 +65,8 @@ MonoBehaviour:
   _player: {fileID: 3977341810560206084, guid: 0e23f7c96463f6945a66d9867687500f, type: 3}
   _enemyContainer: {fileID: 7104604127093432861}
   _powerUpContainer: {fileID: 2577323476948049230}
+  _uiManager: {fileID: 6740445346678354864, guid: 5a92f4bc5712f7b41bbeb41b9e744d51, type: 3}
+  _startingAsteroid: {fileID: 3935095814543298669, guid: c750b4e433de037409543bc2d3377a1e, type: 3}
 --- !u!1 &2577323476948049230
 GameObject:
   m_ObjectHideFlags: 0

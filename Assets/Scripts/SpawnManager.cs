@@ -39,6 +39,7 @@ public class SpawnManager : MonoBehaviour
 
     private bool _allowRestart = false;
 
+    [SerializeField] GameObject _startingAsteroid;
     private void Start()
     {
         //spawn the UIManager
@@ -49,11 +50,12 @@ public class SpawnManager : MonoBehaviour
         GameObject player = Instantiate(_player, transform.position, Quaternion.identity);
         player.gameObject.GetComponent<Player>().InitializePlayer(this, uiManager.GetComponent<UIManager>());
 
+        //spawn the player
+        GameObject startingAsteroid = Instantiate(_startingAsteroid, transform.position, Quaternion.identity);
+        startingAsteroid.gameObject.GetComponent<Asteroid>().InitializeAsteroid(this);
 
 
 
-        StartCoroutine(SpawnSomeDoods());
-        StartCoroutine(SpawnSomePowerUp());
     }
 
     private void Update()
@@ -63,8 +65,17 @@ public class SpawnManager : MonoBehaviour
             SceneManager.LoadScene(1);
         }
     }
+
+    public void StartSpawningDoods()
+    {
+        StartCoroutine(SpawnSomeDoods());
+        StartCoroutine(SpawnSomePowerUp());
+    }
+
     IEnumerator SpawnSomeDoods()
     {
+        yield return new WaitForSeconds(5f);
+
         while(_isSpawning)
             {
             GameObject newEnemy = Instantiate(_enemyList[Random.Range(0, _enemyList.Count)]
@@ -93,14 +104,15 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(_minPowerUpSpawnTime, _maxPowerUpSpawnTime));
         }
 
-
     }
+
     public void StopSpawningDoods()
     {
         _isSpawning = false;
         _allowRestart = true;
 
     }
+
     public void AMurderWasReported()
     {
         _currentScore++;
