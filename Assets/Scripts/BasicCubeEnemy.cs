@@ -27,12 +27,31 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     [Header("Animation Controls")]
     [SerializeField] private Animator _anim;
     [SerializeField] private float _destroyObjectDelay = 2.8f;
-    
+
+    private AudioSource _audioSource;
+
+    [Header("Sound Stuff")]
+    [SerializeField] private AudioClip _explosion;
+    [SerializeField] private AudioClip _laserNoises;
+
+    [Header("Projectiles")]
+    [SerializeField] private GameObject _laser;
+    [SerializeField] private List<Vector3> _fireLocations;
+    [SerializeField] private GameObject _laserBox;
+    [SerializeField] private float _fireRate;
+    private float _canFire = -1f;
+    private bool _stopShooting = false;
+
 
     private void Update()
     {
         HandleEnemyMovement();
         HandleScreenExit();
+        if (_canFire < Time.time)
+        {
+            _canFire = Time.time + _fireRate;
+            RandomShooting();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -73,6 +92,8 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     public void InitializeEnemy(SpawnManager spawnManager)
     {
         _spawnManager = spawnManager;
+        _audioSource = GetComponent<AudioSource>();
+
     }
 
     public void HandleEnemyMovement()
@@ -108,10 +129,33 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     public void HandleEnemyDeath()
     {
+        _stopShooting = true;
+        Destroy(GetComponent<Collider2D>());
         _anim.SetTrigger("OnEnemyWentBoom");
+        PlayAudio(_explosion);
         _contactDamage = 0;
         _moveSpeed = 0f;
         _crabSpeed = 0f;
         Destroy(this.gameObject, _destroyObjectDelay);
+    }
+
+    private void PlayAudio(AudioClip clip)
+    {
+        if (clip == null)
+        {
+            Debug.Log("No clip got assigned to enemy audio source");
+            return;
+        }
+        _audioSource.clip = clip;
+        _audioSource.Play();
+    }
+
+    private void RandomShooting()
+    {
+        if (_stopShooting) { return; }
+
+        GameObject ShootyLaser = Instantiate(_laser, transform.position + _fireLocations[Random.Range(0, 1)], Quaternion.identity);
+        ShootyLaser.transform.parent = _laserBox.transform;
+        PlayAudio(_laserNoises);
     }
 }

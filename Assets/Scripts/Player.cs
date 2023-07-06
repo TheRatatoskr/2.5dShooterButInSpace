@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     [Header("Player Damage Animations")]
     [SerializeField] private GameObject _leftEngine;
     [SerializeField] private GameObject _rightEngine;
+    [SerializeField] private GameObject _explosion;
 
     private bool _engineFireEnabled = false;
     private int _secondEngineFire;
@@ -68,10 +69,22 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
 
+    [Header("Audio Objects")]
+    [SerializeField] private AudioClip _laserNoises;
+    [SerializeField] private AudioClip _explosionNoises;
+    [SerializeField] private AudioClip _pickupNoise;
+
+    private AudioSource _audioSource;
+
+
     private void Start()
     {
         transform.position = _startingPosition;
+
         _shieldSprite.gameObject.SetActive(false);
+
+        _audioSource = GetComponent<AudioSource>();
+
     }
 
     private void Update()
@@ -105,7 +118,7 @@ public class Player : MonoBehaviour
 
                 break;
             case "PlayerPowerUp":
-
+                
                 IPowerUp powerUp = other.gameObject.GetComponent<IPowerUp>();
                 CollectedPowerUp(powerUp.PlayerPickedMeUp());
                 powerUp.PowerUpDespawn();
@@ -163,16 +176,29 @@ public class Player : MonoBehaviour
         //assign current time + delay
         _canFire = Time.time + _fireRate;
 
-        GameObject playerProjectile = Instantiate(_playerProjectile, 
-                                                      transform.position + _projectileStartOffset, 
-                                                      Quaternion.identity);            
+        GameObject playerProjectile = Instantiate(_playerProjectile,
+                                                      transform.position + _projectileStartOffset,
+                                                      Quaternion.identity);
+
+        //do sound stuff
+        PlayAudio(_laserNoises);
+
     }
 
-
+    private void PlayAudio(AudioClip clip)
+    {
+        if (clip == null)
+        {
+            Debug.Log("No clip got assigned to player audio source");
+            return;
+        }
+        _audioSource.clip = clip;
+        _audioSource.Play();
+    }
 
     public void TakeDamage(int damage)
     {
-        GetComponent<AudioSource>().Play();
+        
 
         //handle shield
         if (_isShielded)
@@ -232,6 +258,8 @@ public class Player : MonoBehaviour
 
     private void PlayerDeath()
     {
+        PlayAudio(_explosionNoises);
+        Instantiate(_explosion, transform.position, Quaternion.identity);
         _spawnManager.StopSpawningDoods();
         _uiManager.DisplayGameOverScreen();
         Destroy(this.gameObject);
@@ -239,7 +267,7 @@ public class Player : MonoBehaviour
 
     private void CollectedPowerUp(int whichPowerUp)
     {
-
+        
         switch (whichPowerUp)
         {
             case TRIPLE_LASER:
@@ -253,7 +281,7 @@ public class Player : MonoBehaviour
                 break;
             default: break;
         }
-        
+        PlayAudio(_pickupNoise);
     }
 
     private void LaserPowerUp()

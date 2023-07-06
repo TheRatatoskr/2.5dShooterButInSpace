@@ -64,6 +64,11 @@ public class SpawnManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
     }
 
     public void StartSpawningDoods()
