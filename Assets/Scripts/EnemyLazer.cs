@@ -4,21 +4,14 @@ using UnityEngine;
 
 public class EnemyLazer : MonoBehaviour
 {
-    [SerializeField]
-    private float _moveSpeed;
-    [SerializeField]
-    private float _shotTime;
-    private float _isDead = -1f;
-    [SerializeField]
-    private int _damageDealt = 1;
-
-    private float _startingPosition;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _shotTime;
+    [SerializeField] private int _damageDealt = 1;
 
 
     private void Start()
     {
         Destroy(this.gameObject, _shotTime);
-        _startingPosition = transform.position.y;
     }
     void Update()
     {
@@ -35,13 +28,9 @@ public class EnemyLazer : MonoBehaviour
                 if (player != null) { player.TakeDamage(_damageDealt); }
                 ProjectileHitPlayer();
                 break;
-            case "Wall"://not implemented
 
-                break;
             default:
-
                 break;
-
         }
     }
 

@@ -104,25 +104,13 @@ public class Player : MonoBehaviour
         Debug.Log("Collision:" + other.gameObject.name);
         switch (other.gameObject.tag)
         {
-            case "Enemy":
-
-
-                break;
-            case "Player":
-
-                break;
-            case "PlayerProjectile":
-
-                break;
-            case "EnemyProjectile":
-
-                break;
             case "PlayerPowerUp":
                 
                 IPowerUp powerUp = other.gameObject.GetComponent<IPowerUp>();
                 CollectedPowerUp(powerUp.PlayerPickedMeUp());
                 powerUp.PowerUpDespawn();
                 break;
+
             default:
                 Debug.Log(gameObject.name + " collided with something thats untagged");
                 break;
@@ -176,9 +164,7 @@ public class Player : MonoBehaviour
         //assign current time + delay
         _canFire = Time.time + _fireRate;
 
-        GameObject playerProjectile = Instantiate(_playerProjectile,
-                                                      transform.position + _projectileStartOffset,
-                                                      Quaternion.identity);
+        GameObject playerProjectile = Instantiate(_playerProjectile, transform.position + _projectileStartOffset, Quaternion.identity);
 
         //do sound stuff
         PlayAudio(_laserNoises);
@@ -198,8 +184,6 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        
-
         //handle shield
         if (_isShielded)
         {
@@ -212,7 +196,7 @@ public class Player : MonoBehaviour
 
         //handle health
         _playerHealth = _playerHealth-damage;
-        Debug.Log("Player health changed, its now " + _playerHealth.ToString());
+
 
         if ( _playerHealth <= 0 )
         {

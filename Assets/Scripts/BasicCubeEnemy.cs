@@ -60,28 +60,18 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         Debug.Log("Collision:" + other.gameObject.name);
         switch (other.gameObject.tag)
         {
-            case "Enemy":
-
-                break;
             case "Player":
-
-
                 Player player = other.gameObject.GetComponent<Player>();
                 if (player != null) { player.TakeDamage(_contactDamage); }
                 HandleEnemyDeath();
-
                 break;
-            case "PlayerProjectile":
 
-                
+            case "PlayerProjectile":
                 IPlayerProjectile playerProjectile = other.gameObject.GetComponent<IPlayerProjectile>();
                 if (playerProjectile != null) { playerProjectile.ProjectileHitEnemy(); }
                 HandleEnemyIsShotByPlayer();
-
                 break;
-            case "EnemyProjectile":
 
-                break;
             default:
                 Debug.Log(gameObject.name + " collided with something thats untagged");
                 break;
@@ -110,14 +100,13 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     }
 
     public void HandleScreenExit()
-    {
+    { 
         if(transform.position.y < _maxDownDistance)
         {
+
             //place enemy at location off of the top of the screen
             transform.position = new Vector3(
-                Random.Range(_respawnLeftBound, _respawnRightBound),
-                _respawningLocation,
-                transform.position.z);
+                Random.Range(_respawnLeftBound, _respawnRightBound), _respawningLocation, transform.position.z);
         }
     }
 
@@ -129,13 +118,23 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     public void HandleEnemyDeath()
     {
+        // disable laser so we dont shoot after death.
         _stopShooting = true;
+
+        //stop collisions
         Destroy(GetComponent<Collider2D>());
+
+        //make big boom happen
         _anim.SetTrigger("OnEnemyWentBoom");
+
+        
         PlayAudio(_explosion);
+
+        //0 out stats
         _contactDamage = 0;
         _moveSpeed = 0f;
         _crabSpeed = 0f;
+
         Destroy(this.gameObject, _destroyObjectDelay);
     }
 
@@ -146,6 +145,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
             Debug.Log("No clip got assigned to enemy audio source");
             return;
         }
+
         _audioSource.clip = clip;
         _audioSource.Play();
     }
@@ -155,7 +155,9 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         if (_stopShooting) { return; }
 
         GameObject ShootyLaser = Instantiate(_laser, transform.position + _fireLocations[Random.Range(0, 1)], Quaternion.identity);
+
         ShootyLaser.transform.parent = _laserBox.transform;
+
         PlayAudio(_laserNoises);
     }
 }

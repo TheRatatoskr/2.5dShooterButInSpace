@@ -5,39 +5,33 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour, IPlayerProjectile
 {
-    [SerializeField]
-    private float _moveSpeed;
-    [SerializeField]
-    private float _shotDistance;
-    [SerializeField]
-    private float _damageDealt;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _shotTime;
+    [SerializeField] private float _damageDealt;
 
-    private float _startingPosition;
+
 
 
     private void Start()
     {
-        _startingPosition = transform.position.y;
+
+        Destroy(this.gameObject, _shotTime);
+
     }
     void Update()
     {
         transform.Translate(transform.up * _moveSpeed * Time.deltaTime);
-        if (transform.position.y - _startingPosition > _shotDistance)
-        {
-            ProjectileReachedMaxDistance();
-        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch (collision.gameObject.tag)
         {
-            case "Enemy"://not implemented
+            case "Enemy":
                 ProjectileHitEnemy();
                 break;
-            case "Wall"://not implemented
-                ProjectileHitWall();
-                break;
+
             default:
                 Debug.Log("Projectile hit unknown item");
                 break;
@@ -48,11 +42,6 @@ public class Laser : MonoBehaviour, IPlayerProjectile
     public void ProjectileHitEnemy()
     {
         Destroy(this.gameObject);
-    }
-
-    public void ProjectileHitWall()
-    {
-        //future implementation
     }
 
     public void ProjectileReachedMaxDistance()

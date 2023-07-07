@@ -6,7 +6,7 @@ public interface IPlayerProjectile
 {
 
     public void ProjectileHitEnemy();
-    public void ProjectileHitWall();
-    public void ProjectileReachedMaxDistance();
+
+
 
 }

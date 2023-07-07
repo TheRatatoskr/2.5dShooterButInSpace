@@ -16,7 +16,7 @@ public class Asteroid : MonoBehaviour
     {
         _spawnManager = spawnManager;
     }
-    // Update is called once per frame
+
     void Update()
     {
         transform.Rotate(Vector3.forward * Time.deltaTime * _rotateSpeed);
@@ -34,6 +34,7 @@ public class Asteroid : MonoBehaviour
 
         }
     }
+
     public void HandleDestruction()
     {
         _spawnManager.StartSpawningDoods();
