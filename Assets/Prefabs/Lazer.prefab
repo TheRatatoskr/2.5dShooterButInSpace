@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 8
-  _shotDistance: 10
+  _shotTime: 10
   _damageDealt: 1
 --- !u!70 &8131784516335340036
 CapsuleCollider2D:

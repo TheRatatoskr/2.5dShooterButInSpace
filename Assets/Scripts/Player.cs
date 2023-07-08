@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.TextCore.LowLevel;
 
 public class Player : MonoBehaviour
 {
@@ -48,9 +50,6 @@ public class Player : MonoBehaviour
     private const int SHIELD_UP = 21;
     private int _currentPower;
 
-    [SerializeField] private GameObject _shieldSprite;
-    private bool _isShielded = false;
-
     [Tooltip("How fast the player can shoot")]
     [SerializeField] private float _fireRate = .5f;
     private float _canFire =-1f;
@@ -76,12 +75,30 @@ public class Player : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    [Header("Run Button")]
+    [SerializeField] private float _runMultiplier = 2f;
+    [SerializeField] private float _baseMultiplier = 1f;
+    private float _currentMultiplier;
+
+
+    [Header("Shield Management")]
+    [SerializeField] private List<Color> _shieldStrengthColor;
+    [SerializeField] private Color _tempColor;
+    [SerializeField] private GameObject _shieldObject;
+    private int _shieldLife = 2;
+    private bool _isShielded = false;
+    private SpriteRenderer _shieldSprite;
+
 
     private void Start()
     {
+
+        _currentMultiplier = _baseMultiplier;
+
         transform.position = _startingPosition;
 
-        _shieldSprite.gameObject.SetActive(false);
+        _shieldObject.gameObject.SetActive(false);
+        _shieldSprite = _shieldObject.GetComponent<SpriteRenderer>();
 
         _audioSource = GetComponent<AudioSource>();
 
@@ -94,6 +111,16 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Jump") && Time.time > _canFire)
         {
             FirePlayerProjectile();
+        }
+
+        if (Input.GetButtonDown("Fire3"))
+        {
+            _currentMultiplier = _runMultiplier;
+
+        }
+        if (Input.GetButtonUp("Fire3"))
+        {
+            _currentMultiplier = _baseMultiplier;
         }
 
     }
@@ -133,8 +160,9 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
+
         //do the move
-        transform.Translate(direction * _currentMoveSpeed * Time.deltaTime);
+        transform.Translate(direction * _currentMoveSpeed * _currentMultiplier * Time.deltaTime);
 
         //clamp y movement
         transform.position = new Vector3( transform.position.x, Mathf.Clamp(transform.position.y, _yPositionMin, _yPositionMax));
@@ -187,8 +215,8 @@ public class Player : MonoBehaviour
         //handle shield
         if (_isShielded)
         {
-            _isShielded = false;
-            _shieldSprite.SetActive(false);
+            ShieldTakesTheHitInstead();
+
             return;
         }
 
@@ -240,6 +268,24 @@ public class Player : MonoBehaviour
 
     }
 
+    private void ShieldTakesTheHitInstead()
+    {
+
+        if (_shieldLife <= 0)
+        {
+            _isShielded = false;
+            _shieldObject.SetActive(false);
+        }
+        else
+        {
+            _shieldLife--;
+            _shieldSprite.color = _shieldStrengthColor[_shieldLife];
+        }
+
+
+        return;
+    }
+
     private void PlayerDeath()
     {
         PlayAudio(_explosionNoises);
@@ -278,14 +324,21 @@ public class Player : MonoBehaviour
         _currentPower++;
         _playerProjectile = _projectileLists[_currentPower];
     }
+
     private void SpeedUp()
     {
         _currentMoveSpeed = _boostedSpeed;
     }
+
     private void ShieldUp()
     {
+
         _isShielded = true;
-        _shieldSprite.SetActive(true);
+
+        _shieldLife = _shieldStrengthColor.Count - 1;
+        _shieldObject.SetActive(true);
+
+        _shieldSprite.color = _tempColor;
     }
 }
 
