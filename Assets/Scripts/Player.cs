@@ -83,7 +83,6 @@ public class Player : MonoBehaviour
 
     [Header("Shield Management")]
     [SerializeField] private List<Color> _shieldStrengthColor;
-    [SerializeField] private Color _tempColor;
     [SerializeField] private GameObject _shieldObject;
     private int _shieldLife = 2;
     private bool _isShielded = false;
@@ -92,6 +91,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+
 
         _currentMultiplier = _baseMultiplier;
 
@@ -338,7 +338,7 @@ public class Player : MonoBehaviour
         _shieldLife = _shieldStrengthColor.Count - 1;
         _shieldObject.SetActive(true);
 
-        _shieldSprite.color = _tempColor;
+        _shieldSprite.color = _shieldStrengthColor[_shieldLife];
     }
 }
 

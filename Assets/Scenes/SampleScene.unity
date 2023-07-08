@@ -149,12 +149,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
       propertyPath: _maxPowerUpSpawnTime
-      value: 50
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
       propertyPath: _minPowerUpSpawnTime
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
+      propertyPath: _powerUpList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
+      propertyPath: _powerUpList.Array.data[3]
+      value: 
+      objectReference: {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
+    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
+      propertyPath: _powerUpList.Array.data[4]
+      value: 
+      objectReference: {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
+    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
+      propertyPath: _powerUpList.Array.data[5]
+      value: 
+      objectReference: {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
+    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
+      propertyPath: _powerUpList.Array.data[6]
+      value: 
+      objectReference: {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
+    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
+      propertyPath: _powerUpList.Array.data[7]
+      value: 
+      objectReference: {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
     - target: {fileID: 6522001502382919053, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
       propertyPath: m_RootOrder
       value: 2
