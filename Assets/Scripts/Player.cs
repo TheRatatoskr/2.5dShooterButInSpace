@@ -357,7 +357,6 @@ public class Player : MonoBehaviour
 
     private void PlayerDeath()
     {
-        _theCamera.transform.position = _cameraStartPosition;
 
         Instantiate(_explosion, transform.position, Quaternion.identity);
 
