@@ -48,7 +48,9 @@ public class Player : MonoBehaviour
     private const int TRIPLE_LASER = 1;
     private const int SPEED_UP = 11;
     private const int SHIELD_UP = 21;
-    private int _currentPower;
+    private const int AMMO_UP = 31;
+    private const int HEALTH_UP = 41;
+    private int _currentPower = 1;
 
     [Tooltip("How fast the player can shoot")]
     [SerializeField] private float _fireRate = .5f;
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour
 
     [Header("Stats")]
     [SerializeField] private int _playerHealth = 3;
+    [SerializeField] private int _maxPlayerHealth = 3;
 
     [Header("Player Damage Animations")]
     [SerializeField] private GameObject _leftEngine;
@@ -78,8 +81,10 @@ public class Player : MonoBehaviour
     [Header("Run Button")]
     [SerializeField] private float _runMultiplier = 2f;
     [SerializeField] private float _baseMultiplier = 1f;
+    [SerializeField] private float _maxBoostTime;
+    private float _currentBoostTime;
     private float _currentMultiplier;
-
+    private bool _canBoost = true;
 
     [Header("Shield Management")]
     [SerializeField] private List<Color> _shieldStrengthColor;
@@ -88,10 +93,34 @@ public class Player : MonoBehaviour
     private bool _isShielded = false;
     private SpriteRenderer _shieldSprite;
 
+    [Header("Ammo Stuff")]
+    [SerializeField] private int _maxAmmo;
+    [SerializeField] private int _minStartingAmmo;
+    private int _currentAmmo;
+
+    [SerializeField] private int _minAmmoUp;
+    [SerializeField] private int _maxAmmoUp;
+
+    [Header("Camera Shake")]
+    [SerializeField] private float _shakeStrength;
+    [SerializeField] private float _shakeLength;
+    private Vector3 _cameraStartPosition;
+    private GameObject _theCamera;
+
+    public void InitializePlayer(SpawnManager spawnManager, UIManager uIManager)
+    {
+        _spawnManager = spawnManager;
+        _uiManager = uIManager;
+        
+    }
 
     private void Start()
     {
+        _theCamera = Camera.main.gameObject;
+        _cameraStartPosition = new Vector3(_theCamera.transform.position.x, _theCamera.transform.position.y, _theCamera.transform.position.z);
 
+        _currentAmmo = Random.Range(_minStartingAmmo, _maxAmmo);
+        _uiManager.ChangeAmmoCounter(_currentAmmo.ToString());
 
         _currentMultiplier = _baseMultiplier;
 
@@ -113,16 +142,48 @@ public class Player : MonoBehaviour
             FirePlayerProjectile();
         }
 
-        if (Input.GetButtonDown("Fire3"))
+        if (Input.GetButton("Fire3"))
         {
-            _currentMultiplier = _runMultiplier;
+            BoosterMode();
 
         }
         if (Input.GetButtonUp("Fire3"))
         {
+            _canBoost = false;
             _currentMultiplier = _baseMultiplier;
         }
 
+        if(!_canBoost)
+        {
+            _currentBoostTime--;
+            _uiManager.ChangeBoostMeter(_currentBoostTime / _maxBoostTime);
+            if (_currentBoostTime <= 0)
+            {
+                _currentBoostTime = 0;
+                _canBoost = true;
+            }
+        }
+
+    }
+
+    private void BoosterMode()
+    {
+        
+        if(_currentBoostTime > _maxBoostTime)
+        {
+            _canBoost = false;
+            _currentMultiplier = _baseMultiplier;
+            return;
+        }
+
+        if (_canBoost)
+        {
+            _uiManager.ChangeBoostMeter(_currentBoostTime / _maxBoostTime);
+
+            _currentBoostTime++;
+
+            _currentMultiplier = _runMultiplier;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -146,11 +207,7 @@ public class Player : MonoBehaviour
 
 
 
-    public void InitializePlayer(SpawnManager spawnManager, UIManager uIManager)
-    {
-        _spawnManager = spawnManager;
-        _uiManager = uIManager;
-    }
+
 
     private void CalculateMovement()
     {
@@ -188,15 +245,23 @@ public class Player : MonoBehaviour
             Debug.LogWarning("Player is trying to fire a projectile, but theres no prefab. Do you need a break?");
             return;
         }
+        if (_currentAmmo <= 0 )
+        {
+            _currentAmmo = 0;
+            return;
+        }
 
         //assign current time + delay
         _canFire = Time.time + _fireRate;
+
+        _currentAmmo--;
+        _uiManager.ChangeAmmoCounter(_currentAmmo.ToString());
 
         GameObject playerProjectile = Instantiate(_playerProjectile, transform.position + _projectileStartOffset, Quaternion.identity);
 
         //do sound stuff
         PlayAudio(_laserNoises);
-
+        
     }
 
     private void PlayAudio(AudioClip clip)
@@ -220,10 +285,14 @@ public class Player : MonoBehaviour
             return;
         }
 
-        _uiManager.ChangeLivesSprite(_playerHealth);
+
 
         //handle health
         _playerHealth = _playerHealth-damage;
+
+        StartCoroutine(ShakeyCameraHands());
+
+        _uiManager.ChangeLivesSprite(_playerHealth);
 
 
         if ( _playerHealth <= 0 )
@@ -232,7 +301,7 @@ public class Player : MonoBehaviour
             return;
             
         }
-
+        
         //handle engine fire animation
         int randomEngin = Random.Range(0, 1);
         if (_engineFireEnabled)
@@ -254,10 +323,10 @@ public class Player : MonoBehaviour
         
 
         //handle progressive powerups
-        if (_currentPower > 0 ) 
+        if (_currentPower > 1 ) 
         {
             _currentPower--;
-            _playerProjectile = _projectileLists[_currentPower];
+            _playerProjectile = _projectileLists[_currentPower-1];
         }
 
         //handle speed down
@@ -288,11 +357,15 @@ public class Player : MonoBehaviour
 
     private void PlayerDeath()
     {
-        PlayAudio(_explosionNoises);
+        _theCamera.transform.position = _cameraStartPosition;
+
         Instantiate(_explosion, transform.position, Quaternion.identity);
+
         _spawnManager.StopSpawningDoods();
+
         _uiManager.DisplayGameOverScreen();
-        Destroy(this.gameObject);
+
+        Destroy(this.gameObject, .3f);
     }
 
     private void CollectedPowerUp(int whichPowerUp)
@@ -309,6 +382,12 @@ public class Player : MonoBehaviour
             case SHIELD_UP:
                 ShieldUp();
                 break;
+            case AMMO_UP:
+                AmmoUp();
+                break;
+            case HEALTH_UP:
+                HealthUp();
+                break;
             default: break;
         }
         PlayAudio(_pickupNoise);
@@ -322,7 +401,7 @@ public class Player : MonoBehaviour
         }
 
         _currentPower++;
-        _playerProjectile = _projectileLists[_currentPower];
+        _playerProjectile = _projectileLists[_currentPower-1];
     }
 
     private void SpeedUp()
@@ -339,6 +418,65 @@ public class Player : MonoBehaviour
         _shieldObject.SetActive(true);
 
         _shieldSprite.color = _shieldStrengthColor[_shieldLife];
+    }
+
+    private void AmmoUp()
+    {
+        _currentAmmo = _currentAmmo + Random.Range(_minAmmoUp, _maxAmmoUp);
+        _uiManager.ChangeAmmoCounter(_currentAmmo.ToString());
+    }
+
+    private void HealthUp()
+    {
+
+        switch(_playerHealth)
+        {
+            case 3:
+                _playerHealth = _maxPlayerHealth;
+                return;
+                break;
+            case 2:
+                _engineFireEnabled = false;
+                _rightEngine.SetActive(false);
+                _leftEngine.SetActive(false);
+                break;
+            case 1:
+                if (_secondEngineFire == 0)
+                {
+                    _leftEngine.SetActive(false);
+                    _secondEngineFire = 0;
+                }
+                else
+                {
+                    _rightEngine.SetActive(false);
+                    _secondEngineFire = 1;
+                }
+                break;
+            default:
+                Debug.LogWarning("How did we get here? Something is wrong go fix it.");
+                break;
+        }
+
+        _playerHealth++;
+
+        _uiManager.ChangeLivesSprite(_playerHealth);
+    }
+
+    private IEnumerator ShakeyCameraHands()
+    {
+        float shakeTime = 0f;
+        while (shakeTime < _shakeLength)
+        {
+            float xShake = Random.Range(-1f, 1f) * _shakeStrength;
+            float yShake = Random.Range(-1f, 1f) * _shakeStrength;
+
+            _theCamera.transform.position = _cameraStartPosition + new Vector3(xShake, yShake, 0);
+
+            shakeTime += Time.deltaTime;
+
+            yield return null;
+        }
+        _theCamera.transform.position = _cameraStartPosition;
     }
 }
 

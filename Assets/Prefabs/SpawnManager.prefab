@@ -54,14 +54,21 @@ MonoBehaviour:
   - {fileID: 1012131159974250143, guid: 14176a2b39a95744a9b92b189239f2ac, type: 3}
   - {fileID: 5536317213161542108, guid: 15a8d592c374c31448a8214f0e33744d, type: 3}
   - {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
+  - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
+  - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
+  - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
+  - {fileID: 2150367446902329811, guid: 1c2b7b1f27a295744b82fdb0816226a7, type: 3}
+  - {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
+  - {fileID: 5536317213161542108, guid: 15a8d592c374c31448a8214f0e33744d, type: 3}
+  - {fileID: 1012131159974250143, guid: 14176a2b39a95744a9b92b189239f2ac, type: 3}
   _spawnLocationY: 11
   _spawnLocationXLeft: -10
   _spawnLocationXRight: 10
   _isSpawning: 1
-  _minEnemySpawnTime: 1
-  _maxEnemySpawnTime: 5
+  _minEnemySpawnTime: 111
+  _maxEnemySpawnTime: 2222
   _minPowerUpSpawnTime: 1
-  _maxPowerUpSpawnTime: 1
+  _maxPowerUpSpawnTime: 2
   _player: {fileID: 3977341810560206084, guid: 0e23f7c96463f6945a66d9867687500f, type: 3}
   _enemyContainer: {fileID: 7104604127093432861}
   _powerUpContainer: {fileID: 2577323476948049230}
