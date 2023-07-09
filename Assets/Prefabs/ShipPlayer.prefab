@@ -439,7 +439,7 @@ MonoBehaviour:
   - {fileID: 8749097590140838528, guid: 8209140ef1e0e9b4f940e34c52d1590f, type: 3}
   - {fileID: 7969356627493937492, guid: edebab432fecde7459acc4fba3307391, type: 3}
   - {fileID: 4028411026231033884, guid: 10b86cdde0cb69c44a8d72859165fd01, type: 3}
-  _fireRate: 0.5
+  _fireRate: 0.2
   _playerHealth: 3
   _maxPlayerHealth: 3
   _leftEngine: {fileID: 3106292328381348917}
@@ -450,7 +450,7 @@ MonoBehaviour:
   _pickupNoise: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
   _runMultiplier: 2
   _baseMultiplier: 1
-  _maxBoostTime: 1000
+  _maxBoostTime: 2.5
   _shieldStrengthColor:
   - {r: 0, g: 0.027071953, b: 1, a: 1}
   - {r: 0.5613713, g: 0, b: 1, a: 1}

@@ -155,7 +155,8 @@ public class Player : MonoBehaviour
 
         if(!_canBoost)
         {
-            _currentBoostTime--;
+            _currentBoostTime-= Time.deltaTime;
+
             _uiManager.ChangeBoostMeter(_currentBoostTime / _maxBoostTime);
             if (_currentBoostTime <= 0)
             {
@@ -180,7 +181,7 @@ public class Player : MonoBehaviour
         {
             _uiManager.ChangeBoostMeter(_currentBoostTime / _maxBoostTime);
 
-            _currentBoostTime++;
+            _currentBoostTime+= Time.deltaTime;
 
             _currentMultiplier = _runMultiplier;
         }
