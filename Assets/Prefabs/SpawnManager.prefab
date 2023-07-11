@@ -31,6 +31,7 @@ Transform:
   m_Children:
   - {fileID: 5038358671313762599}
   - {fileID: 5212047569332598906}
+  - {fileID: 8341858462365574860}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -52,23 +53,26 @@ MonoBehaviour:
   - {fileID: 1079966519799618278, guid: e9e7b38202d251346afb823810ec06a0, type: 3}
   _powerUpList:
   - {fileID: 1012131159974250143, guid: 14176a2b39a95744a9b92b189239f2ac, type: 3}
-  - {fileID: 5536317213161542108, guid: 15a8d592c374c31448a8214f0e33744d, type: 3}
+  - {fileID: 1012131159974250143, guid: 14176a2b39a95744a9b92b189239f2ac, type: 3}
   - {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
+  - {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
+  - {fileID: 5536317213161542108, guid: 15a8d592c374c31448a8214f0e33744d, type: 3}
+  - {fileID: 5536317213161542108, guid: 15a8d592c374c31448a8214f0e33744d, type: 3}
+  - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
+  - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
+  - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
   - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
   - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
   - {fileID: 7895391879376754037, guid: 712ad6fb17227ae4694918cefff9780e, type: 3}
   - {fileID: 2150367446902329811, guid: 1c2b7b1f27a295744b82fdb0816226a7, type: 3}
-  - {fileID: 7111856689675983561, guid: f5ec9678298907c40b5447842c8832ef, type: 3}
-  - {fileID: 5536317213161542108, guid: 15a8d592c374c31448a8214f0e33744d, type: 3}
-  - {fileID: 1012131159974250143, guid: 14176a2b39a95744a9b92b189239f2ac, type: 3}
   _spawnLocationY: 11
   _spawnLocationXLeft: -10
   _spawnLocationXRight: 10
   _isSpawning: 1
-  _minEnemySpawnTime: 111
-  _maxEnemySpawnTime: 2222
-  _minPowerUpSpawnTime: 1
-  _maxPowerUpSpawnTime: 2
+  _minEnemySpawnTime: 2
+  _maxEnemySpawnTime: 4
+  _minPowerUpSpawnTime: 30
+  _maxPowerUpSpawnTime: 40
   _player: {fileID: 3977341810560206084, guid: 0e23f7c96463f6945a66d9867687500f, type: 3}
   _enemyContainer: {fileID: 7104604127093432861}
   _powerUpContainer: {fileID: 2577323476948049230}
@@ -97,6 +101,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2577323476948049230}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6522001502382919053}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6133033243364196168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8341858462365574860}
+  m_Layer: 0
+  m_Name: SpawnedLasers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8341858462365574860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133033243364196168}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}

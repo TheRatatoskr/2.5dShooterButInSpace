@@ -23,6 +23,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     [SerializeField] private int _contactDamage = 1;
 
     private SpawnManager _spawnManager;
+    
 
     [Header("Animation Controls")]
     [SerializeField] private Animator _anim;
@@ -82,7 +83,10 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     public void InitializeEnemy(SpawnManager spawnManager)
     {
         _spawnManager = spawnManager;
+
         _audioSource = GetComponent<AudioSource>();
+
+        _laserBox = spawnManager.transform.GetChild(2).gameObject;
 
     }
 
