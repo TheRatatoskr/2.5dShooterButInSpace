@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
         _cameraStartPosition = new Vector3(_theCamera.transform.position.x, _theCamera.transform.position.y, _theCamera.transform.position.z);
 
         _currentAmmo = Random.Range(_minStartingAmmo, _maxAmmo);
-        _uiManager.ChangeAmmoCounter(_currentAmmo.ToString());
+        PlayerAmmoChange();
 
         _currentMultiplier = _baseMultiplier;
 
@@ -131,6 +131,11 @@ public class Player : MonoBehaviour
 
         _audioSource = GetComponent<AudioSource>();
 
+    }
+
+    private void PlayerAmmoChange()
+    {
+        _uiManager.ChangeAmmoCounter($"{_currentAmmo.ToString()}/{_maxAmmo.ToString()}");
     }
 
     private void Update()
@@ -256,7 +261,7 @@ public class Player : MonoBehaviour
         _canFire = Time.time + _fireRate;
 
         _currentAmmo--;
-        _uiManager.ChangeAmmoCounter(_currentAmmo.ToString());
+        PlayerAmmoChange();
 
         GameObject playerProjectile = Instantiate(_playerProjectile, transform.position + _projectileStartOffset, Quaternion.identity);
 
@@ -422,8 +427,14 @@ public class Player : MonoBehaviour
 
     private void AmmoUp()
     {
-        _currentAmmo = _currentAmmo + Random.Range(_minAmmoUp, _maxAmmoUp);
-        _uiManager.ChangeAmmoCounter(_currentAmmo.ToString());
+        
+        _currentAmmo += Random.Range(_minAmmoUp, _maxAmmoUp);
+        if (_currentAmmo > _maxAmmo)
+        {
+            _currentAmmo = _maxAmmo;
+        }
+
+        PlayerAmmoChange();
     }
 
     private void HealthUp()
