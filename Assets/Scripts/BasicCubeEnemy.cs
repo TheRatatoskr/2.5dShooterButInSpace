@@ -23,7 +23,8 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     [SerializeField] private int _contactDamage = 1;
 
     private SpawnManager _spawnManager;
-    
+
+    private bool _isAlive = true;
 
     [Header("Animation Controls")]
     [SerializeField] private Animator _anim;
@@ -46,8 +47,13 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     private void Update()
     {
-        HandleEnemyMovement();
+        if (_isAlive)
+        {
+            HandleEnemyMovement();
+        }
+
         HandleScreenExit();
+
         if (_canFire < Time.time)
         {
             _canFire = Time.time + _fireRate;
@@ -90,7 +96,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     }
 
-    public void HandleEnemyMovement()
+    public virtual void HandleEnemyMovement()
     {
         //calculate the left or right shuffle
         float shuffle = Random.Range(-1 * _maxShuffle, _maxShuffle);
@@ -111,7 +117,15 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
             //place enemy at location off of the top of the screen
             transform.position = new Vector3(
                 Random.Range(_respawnLeftBound, _respawnRightBound), _respawningLocation, transform.position.z);
+
+            HandleAdditionalExitBehaviors();
+
         }
+    }
+
+    public virtual void HandleAdditionalExitBehaviors()
+    {
+        //impletement on other objects. 
     }
 
     public void HandleEnemyIsShotByPlayer()
@@ -131,9 +145,10 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         //make big boom happen
         _anim.SetTrigger("OnEnemyWentBoom");
 
-        
-        PlayAudio(_explosion);
+        _isAlive = false;
 
+        PlayAudio(_explosion);
+        
         //0 out stats
         _contactDamage = 0;
         _moveSpeed = 0f;
