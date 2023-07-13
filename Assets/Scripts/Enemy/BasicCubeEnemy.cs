@@ -76,7 +76,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
             case "PlayerProjectile":
                 IPlayerProjectile playerProjectile = other.gameObject.GetComponent<IPlayerProjectile>();
                 if (playerProjectile != null) { playerProjectile.ProjectileHitEnemy(); }
-                HandleEnemyIsShotByPlayer();
+                HandleEnemyDeath();
                 break;
 
             default:
@@ -128,11 +128,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         //impletement on other objects. 
     }
 
-    public void HandleEnemyIsShotByPlayer()
-    {
-        _spawnManager.AMurderWasReported();
-        HandleEnemyDeath();
-    }
+
 
     public void HandleEnemyDeath()
     {
@@ -153,6 +149,8 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         _contactDamage = 0;
         _moveSpeed = 0f;
         _crabSpeed = 0f;
+
+        _spawnManager.AMurderWasReported();
 
         Destroy(this.gameObject, _destroyObjectDelay);
     }

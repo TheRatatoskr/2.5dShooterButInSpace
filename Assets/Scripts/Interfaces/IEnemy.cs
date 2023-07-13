@@ -7,6 +7,6 @@ public interface IEnemy
     public void InitializeEnemy(SpawnManager spawnManager);
     public void HandleEnemyMovement();
     public void HandleScreenExit();
-    public void HandleEnemyIsShotByPlayer();
+
     public void HandleEnemyDeath();
 }

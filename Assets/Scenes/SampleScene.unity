@@ -136,17 +136,9 @@ PrefabInstance:
       value: SpawnManager
       objectReference: {fileID: 0}
     - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
-      propertyPath: _enemyList.Array.data[0]
-      value: 
-      objectReference: {fileID: 2950231592379293196, guid: 148d9d4ef3addad49b110e0829cb0879, type: 3}
-    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
-      propertyPath: _enemyList.Array.data[1]
-      value: 
-      objectReference: {fileID: 2950231592379293196, guid: 148d9d4ef3addad49b110e0829cb0879, type: 3}
-    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
-      propertyPath: _enemyList.Array.data[2]
-      value: 
-      objectReference: {fileID: 2950231592379293196, guid: 148d9d4ef3addad49b110e0829cb0879, type: 3}
+      propertyPath: _waveEnemyCountModifier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6522001502382919053, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
       propertyPath: m_RootOrder
       value: 2

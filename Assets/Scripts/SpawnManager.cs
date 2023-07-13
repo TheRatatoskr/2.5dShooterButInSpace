@@ -33,12 +33,22 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _powerUpContainer;
 
     [SerializeField] private GameObject _uiManager;
+
+    [SerializeField] private int _waveEnemyCountModifier;
+    
+    private List<GameObject> _currentListOfEnemies;
+
+    private int _currentWave = 0;
+
+    private bool _waveComplete = false;
+
     private UIManager _ui;
 
     private int _currentScore = 0;
 
     private bool _allowRestart = false;
 
+    [SerializeField] private int numberOfEnemiesInWave;
     [SerializeField] GameObject _startingAsteroid;
     private void Start()
     {
@@ -50,9 +60,12 @@ public class SpawnManager : MonoBehaviour
         GameObject player = Instantiate(_player, transform.position, Quaternion.identity);
         player.gameObject.GetComponent<Player>().InitializePlayer(this, uiManager.GetComponent<UIManager>());
 
-        //spawn the player
+        //spawn the asteroid
         GameObject startingAsteroid = Instantiate(_startingAsteroid, transform.position, Quaternion.identity);
         startingAsteroid.gameObject.GetComponent<Asteroid>().InitializeAsteroid(this);
+
+        //Setup the first wave
+        SetupAWave();
 
 
 
@@ -69,6 +82,44 @@ public class SpawnManager : MonoBehaviour
             Application.Quit();
         }
 
+        if(_waveComplete)
+        {
+            if (_enemyContainer.transform.childCount == 0)
+            {
+                SetupAWave();
+            }
+        }
+    }
+
+    private void SetupAWave()
+    {
+        _currentWave++;
+
+        _currentListOfEnemies = new List<GameObject>();
+        numberOfEnemiesInWave = _currentWave * _waveEnemyCountModifier + Random.Range(1, _currentWave);
+
+        int enemyTypeCounter = _currentWave -1;
+
+        if (enemyTypeCounter > _enemyList.Count)
+        {
+            enemyTypeCounter = _enemyList.Count - 1;
+        }
+
+        for(int i = 0; i < numberOfEnemiesInWave; i++)
+        {
+            _currentListOfEnemies.Add(_enemyList[Random.Range(0, enemyTypeCounter)]);
+        }
+
+        _waveComplete = false;
+        _isSpawning = true;
+
+        _ui.ChangeCurrentWaveCounter(_currentWave.ToString());
+        _ui.ChangeEnemyRemainingText(numberOfEnemiesInWave.ToString());
+
+        if (_currentWave != 1)
+        {
+            StartSpawningDoods();
+        }
     }
 
     public void StartSpawningDoods()
@@ -83,7 +134,7 @@ public class SpawnManager : MonoBehaviour
 
         while(_isSpawning)
             {
-            GameObject newEnemy = Instantiate(_enemyList[Random.Range(0, _enemyList.Count)]
+            GameObject newEnemy = Instantiate(_currentListOfEnemies[0]
                 ,new Vector3(Random.Range(_spawnLocationXLeft, _spawnLocationXRight), _spawnLocationY, 0),
                 Quaternion.identity);
             
@@ -91,6 +142,13 @@ public class SpawnManager : MonoBehaviour
             newEnemy.transform.parent = _enemyContainer.transform;
             newEnemy.GetComponent<IEnemy>().InitializeEnemy(this);
 
+            _currentListOfEnemies.RemoveAt(0);
+
+            if(_currentListOfEnemies.Count == 0)
+            {
+                _isSpawning = false;
+                _waveComplete = true;
+            }
             yield return new WaitForSeconds(Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime));
         }
     }
@@ -121,6 +179,13 @@ public class SpawnManager : MonoBehaviour
     public void AMurderWasReported()
     {
         _currentScore++;
+        numberOfEnemiesInWave--;
+        UpdateUIOnEnemyDeath();
+    }
+
+    public void UpdateUIOnEnemyDeath()
+    {
         _ui.ChangePointText(_currentScore);
+        _ui.ChangeEnemyRemainingText(numberOfEnemiesInWave.ToString());
     }
 }

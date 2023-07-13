@@ -23,12 +23,14 @@ public class EnemyLazer : MonoBehaviour
     {
         switch (collision.gameObject.tag)
         {
-            case "Player"://not implemented
+            case "Player":
                 Player player = collision.gameObject.GetComponent<Player>();
                 if (player != null) { player.TakeDamage(_damageDealt); }
                 ProjectileHitPlayer();
                 break;
-
+            case "PlayerProjectile":
+                ProjectileHitPlayer();
+                break;
             default:
                 break;
         }

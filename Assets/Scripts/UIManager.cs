@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Life Stuff")]
+    [Header("Player Reporting")]
     [SerializeField] private TMP_Text _pointText;
     [SerializeField] private Image _livesImg;
     [SerializeField] private List<Sprite> _livesSprite;
+
+    [SerializeField] private Image _lightningBoost;
 
     [Header("Ammo Stuff")]
     [SerializeField] private TMP_Text _ammoCounter;
@@ -22,7 +24,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _restartText;
     [SerializeField] private string _restartVerbage = "Press 'R' To Restart.";
 
-    [SerializeField] private Image _lightningBoost;
+    [Header("Wave Information")]
+    [SerializeField] private TMP_Text _waveText;
+    [SerializeField] private TMP_Text _enemiesRemainingText;
+    
 
 
     private bool _isGameOver = false;
@@ -58,6 +63,16 @@ public class UIManager : MonoBehaviour
     public void ChangeBoostMeter(float fillPercent)
     {
        _lightningBoost.fillAmount = fillPercent;
+    }
+
+    public void ChangeEnemyRemainingText(string newValue)
+    {
+        _enemiesRemainingText.text = newValue;
+    }
+
+    public void ChangeCurrentWaveCounter(string newValue)
+    {
+        _waveText.text = newValue;
     }
 
     IEnumerator GameOverFlicker()
