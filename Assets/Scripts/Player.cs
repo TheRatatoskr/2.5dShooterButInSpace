@@ -18,7 +18,11 @@ public class Player : MonoBehaviour
     [Tooltip("Define how fast the player moves speed up.")]
     [SerializeField] private float _boostedSpeed = 10f;
 
-
+    [SerializeField] private float _engineLockSpeed = 0f;
+    [SerializeField] private float _engineLockRate = .1f;
+    [SerializeField] private float _engineLockDelay = 1f;
+    [SerializeField] private float _engineLockStallTime = 4f;
+    [SerializeField] private GameObject _thrusterObject;
 
     [Space(order = 1)]
     [SerializeField] private float _randomMinimum = 0f;
@@ -50,6 +54,7 @@ public class Player : MonoBehaviour
     private const int SHIELD_UP = 21;
     private const int AMMO_UP = 31;
     private const int HEALTH_UP = 41;
+    private const int ENGINE_LOCK = 51;
     private int _currentPower = 1;
 
     [Tooltip("How fast the player can shoot")]
@@ -82,6 +87,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _runMultiplier = 2f;
     [SerializeField] private float _baseMultiplier = 1f;
     [SerializeField] private float _maxBoostTime;
+    private bool _isBoosterLocked = false;
     private float _currentBoostTime;
     private float _currentMultiplier;
     private bool _canBoost = true;
@@ -158,7 +164,7 @@ public class Player : MonoBehaviour
             _currentMultiplier = _baseMultiplier;
         }
 
-        if(!_canBoost)
+        if(!_canBoost && !_isBoosterLocked)
         {
             _currentBoostTime-= Time.deltaTime;
 
@@ -174,7 +180,11 @@ public class Player : MonoBehaviour
 
     private void BoosterMode()
     {
-        
+        if(_isBoosterLocked)
+        {
+            return;
+        }
+
         if(_currentBoostTime > _maxBoostTime)
         {
             _canBoost = false;
@@ -393,9 +403,51 @@ public class Player : MonoBehaviour
             case HEALTH_UP:
                 HealthUp();
                 break;
+            case ENGINE_LOCK:
+                StartCoroutine(EngineLockSequence());
+                break;
             default: break;
         }
         PlayAudio(_pickupNoise);
+    }
+
+    IEnumerator EngineLockSequence()
+    {
+        bool currentlyLocked = true;
+        _uiManager.LockedBoostMeter();
+
+        _isBoosterLocked = true;
+
+        //play an annoying noise
+        while (currentlyLocked)
+        {
+            _currentMoveSpeed -= _engineLockRate; 
+
+            if(_currentMoveSpeed <= _engineLockSpeed)
+            {
+                currentlyLocked = false;
+                
+            }
+            yield return new WaitForSeconds(_engineLockDelay);
+
+
+        }
+
+
+        
+        _thrusterObject.SetActive(false);
+
+        yield return new WaitForSeconds(_engineLockStallTime);
+
+        _thrusterObject.SetActive(true);
+
+        _currentMoveSpeed = _normalMoveSpeed;
+
+        _isBoosterLocked = false;
+
+        _uiManager.UnlockBoostMeter();
+
+        //stop annoying noise.
     }
 
     private void LaserPowerUp()

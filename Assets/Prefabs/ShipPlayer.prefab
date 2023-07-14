@@ -425,6 +425,11 @@ MonoBehaviour:
   _startingPosition: {x: 0, y: -4, z: 0}
   _normalMoveSpeed: 3.5
   _boostedSpeed: 4.5
+  _engineLockSpeed: 0
+  _engineLockRate: 0.5
+  _engineLockDelay: 0.3
+  _engineLockStallTime: 4
+  _thrusterObject: {fileID: 6957280709424305677}
   _randomMinimum: 0
   _randomMaximum: 10
   _yPositionMin: -3.8

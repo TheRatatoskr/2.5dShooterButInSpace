@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmmoPU : MonoBehaviour, IPowerUp
+public class BasicPowerPU : MonoBehaviour, IPowerUp
 {
     [SerializeField] private float _moveSpeed = 4f;
     [SerializeField] private float _despawnYLocation;
@@ -17,11 +17,11 @@ public class AmmoPU : MonoBehaviour, IPowerUp
     }
     private void Update()
     {
-        transform.Translate(new Vector2(0, _moveSpeed * Time.deltaTime));
+        HandlePowerUpMovement();
 
         if (transform.position.y < _despawnYLocation)
         {
-            Destroy(this.gameObject);
+            PowerUpDespawn();
         }
 
         if (Time.time > _spawnTime + _despawnTime)
@@ -29,6 +29,12 @@ public class AmmoPU : MonoBehaviour, IPowerUp
             PowerUpDespawn();
         }
     }
+
+    public virtual void HandlePowerUpMovement()
+    {
+        transform.Translate(new Vector2(0, _moveSpeed * Time.deltaTime));
+    }
+
     public int PlayerPickedMeUp()
     {
         return _whoAmI;

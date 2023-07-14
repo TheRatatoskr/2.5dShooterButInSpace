@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3913152849121764045}
   - component: {fileID: 3017774530350691969}
   - component: {fileID: 2475843034071810487}
-  - component: {fileID: 8397432555074661198}
+  - component: {fileID: -470562231208450624}
   m_Layer: 0
   m_Name: AmmoUpPowerUp
   m_TagString: PlayerPowerUp
@@ -244,7 +244,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.21409693, y: 0.47761124}
   m_EdgeRadius: 0
---- !u!114 &8397432555074661198
+--- !u!114 &-470562231208450624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7895391879376754037}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 638d65c21dcfdda49849e2eac6b7cdcc, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bc1db561e17a22429bc455b0f771f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: -4
