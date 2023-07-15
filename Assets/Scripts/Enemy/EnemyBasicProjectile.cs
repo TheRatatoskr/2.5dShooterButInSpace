@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyLazer : MonoBehaviour
+public class EnemyBasicProjectile : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed;
+    [SerializeField] public float _moveSpeed;
     [SerializeField] private float _shotTime;
     [SerializeField] private int _damageDealt = 1;
 
@@ -15,9 +15,10 @@ public class EnemyLazer : MonoBehaviour
     }
     void Update()
     {
-        transform.Translate(-transform.up * _moveSpeed * Time.deltaTime);
+        ProjectileMovement();
 
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -36,9 +37,14 @@ public class EnemyLazer : MonoBehaviour
         }
     }
 
-    public void ProjectileHitPlayer()
+    public virtual void ProjectileHitPlayer()
     {
         Destroy(this.gameObject);
+    }
+
+    public virtual void ProjectileMovement()
+    {
+        transform.Translate(-transform.up * _moveSpeed * Time.deltaTime);
     }
 
 }

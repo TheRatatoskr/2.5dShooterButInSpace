@@ -28,8 +28,11 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private GameObject _player;
 
-    
+    [SerializeField] private int _startShieldEnemyWave;
+    [SerializeField] private int _chanceOfUnshieldedEnemy;
+
     [SerializeField] private GameObject _enemyContainer;
+
     [SerializeField] private GameObject _powerUpContainer;
 
     [SerializeField] private GameObject _uiManager;
@@ -50,6 +53,8 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private int numberOfEnemiesInWave;
     [SerializeField] GameObject _startingAsteroid;
+
+
     private void Start()
     {
         //spawn the UIManager
@@ -140,7 +145,23 @@ public class SpawnManager : MonoBehaviour
             
 
             newEnemy.transform.parent = _enemyContainer.transform;
-            newEnemy.GetComponent<IEnemy>().InitializeEnemy(this);
+            
+            IEnemy enemy = newEnemy.GetComponent<IEnemy>();
+
+            enemy.InitializeEnemy(this);
+
+            if (_currentWave >= _startShieldEnemyWave)
+            {
+                int shieldCheck = Random.Range(0, 100);
+
+                
+
+                if (shieldCheck + _currentWave > _chanceOfUnshieldedEnemy) 
+                {
+                    enemy.ActivateShields();
+                }
+
+            }
 
             _currentListOfEnemies.RemoveAt(0);
 

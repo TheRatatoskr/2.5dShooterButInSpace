@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasicCubeEnemy : MonoBehaviour, IEnemy
 {
     [Header("Basic Movement")]
-    [SerializeField] private float _moveSpeed = 1f;
+    [SerializeField] public float _moveSpeed = 1f;
     
     [Header("Left and Right movement variance")]
     [SerializeField] private float _crabSpeed = 1f;
@@ -44,6 +44,8 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     private float _canFire = -1f;
     private bool _stopShooting = false;
 
+    private bool _isShielded = false;
+    [SerializeField] private GameObject _shieldSprite;
 
     private void Update()
     {
@@ -96,6 +98,12 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     }
 
+    public void ActivateShields()
+    {
+        _isShielded = true;
+        _shieldSprite.SetActive(true);
+    }
+
     public virtual void HandleEnemyMovement()
     {
         //calculate the left or right shuffle
@@ -125,13 +133,21 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     public virtual void HandleAdditionalExitBehaviors()
     {
-        //impletement on other objects. 
+        //implement on other objects. 
     }
 
 
 
     public void HandleEnemyDeath()
     {
+        if(_isShielded)
+        {
+            _isShielded = false;
+            _shieldSprite.SetActive(false);
+
+            return;
+        }
+
         // disable laser so we dont shoot after death.
         _stopShooting = true;
 
@@ -176,5 +192,15 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         ShootyLaser.transform.parent = _laserBox.transform;
 
         PlayAudio(_laserNoises);
+    }
+
+    public virtual void HandleScannerDetection(Collider2D collision)
+    {
+        //not implemented on basic enemy.
+    }
+
+    public virtual void HandleScannerLostDetection(Collider2D collision)
+    {
+        //not implemented on basic enemy.
     }
 }
