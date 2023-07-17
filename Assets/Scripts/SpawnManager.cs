@@ -41,6 +41,8 @@ public class SpawnManager : MonoBehaviour
     
     private List<GameObject> _currentListOfEnemies;
 
+    [SerializeField]  private GameObject _thePlayer;
+
     private int _currentWave = 0;
 
     private bool _waveComplete = false;
@@ -62,8 +64,8 @@ public class SpawnManager : MonoBehaviour
         _ui = uiManager.GetComponent<UIManager>();
 
         //spawn the player
-        GameObject player = Instantiate(_player, transform.position, Quaternion.identity);
-        player.gameObject.GetComponent<Player>().InitializePlayer(this, uiManager.GetComponent<UIManager>());
+        _thePlayer = Instantiate(_player, transform.position, Quaternion.identity);
+        _thePlayer.gameObject.GetComponent<Player>().InitializePlayer(this, uiManager.GetComponent<UIManager>());
 
         //spawn the asteroid
         GameObject startingAsteroid = Instantiate(_startingAsteroid, transform.position, Quaternion.identity);
@@ -208,5 +210,25 @@ public class SpawnManager : MonoBehaviour
     {
         _ui.ChangePointText(_currentScore);
         _ui.ChangeEnemyRemainingText(numberOfEnemiesInWave.ToString());
+    }
+
+    public void SendThePowerUpsAtThePlayer()
+    {
+
+        if (_powerUpContainer.transform.childCount <= 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < _powerUpContainer.transform.childCount; i++)
+        {
+
+        IPowerUp child = _powerUpContainer.transform.GetChild(i).GetComponent<IPowerUp>();
+
+            child.SendToPlayer(_thePlayer.transform.position);
+        }
+
+
+
     }
 }

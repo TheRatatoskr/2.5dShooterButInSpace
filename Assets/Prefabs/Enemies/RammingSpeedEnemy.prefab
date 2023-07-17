@@ -336,6 +336,7 @@ MonoBehaviour:
   _fireRate: 4
   _shieldSprite: {fileID: 568090602001034649}
   _ramZone: {fileID: 2233771407146360657}
+  _ramStick: {fileID: 7937622528928367534}
 --- !u!1 &2233771407146360657
 GameObject:
   m_ObjectHideFlags: 0

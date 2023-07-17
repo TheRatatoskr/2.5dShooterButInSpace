@@ -21,10 +21,21 @@ public class DiagonalPU : BasicPowerPU
     }
     public override void HandlePowerUpMovement()
     {
-        transform.Translate(new Vector2(_crabSpeed * Time.deltaTime, _movementSpeed * Time.deltaTime));
-        if (transform.position.x < _minXPosition || transform.position.x > _maxXPosition)
+        if (_goToPlayer)
         {
-            _crabSpeed = _crabSpeed * -1;
+            transform.position = Vector3.MoveTowards(transform.position, _playerCallPosition, -_moveSpeed * _moveSpeedMultiplier * Time.deltaTime);
+            if(transform.position == _playerCallPosition)
+            {
+                _goToPlayer = false;
+            }    
+        }
+        else
+        {
+            transform.Translate(new Vector2(_crabSpeed * Time.deltaTime, _movementSpeed * Time.deltaTime));
+            if (transform.position.x < _minXPosition || transform.position.x > _maxXPosition)
+            {
+                _crabSpeed = _crabSpeed * -1;
+            }
         }
     }
 }

@@ -158,10 +158,16 @@ public class Player : MonoBehaviour
             BoosterMode();
 
         }
+
         if (Input.GetButtonUp("Fire3"))
         {
             _canBoost = false;
             _currentMultiplier = _baseMultiplier;
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _spawnManager.SendThePowerUpsAtThePlayer();
         }
 
         if(!_canBoost && !_isBoosterLocked)
@@ -205,7 +211,7 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        Debug.Log("Collision:" + other.gameObject.name);
+        
         switch (other.gameObject.tag)
         {
             case "PlayerPowerUp":
@@ -216,7 +222,7 @@ public class Player : MonoBehaviour
                 break;
 
             default:
-                Debug.Log(gameObject.name + " collided with something thats untagged");
+                
                 break;
         }
     }

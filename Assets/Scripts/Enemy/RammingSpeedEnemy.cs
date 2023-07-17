@@ -5,6 +5,7 @@ using UnityEngine;
 public class RammingSpeedEnemy : BasicCubeEnemy
 {
     [SerializeField] private GameObject _ramZone;
+    [SerializeField] private GameObject _ramStick;
     private Transform _playerLocation;
     private bool _isRamming = false;
 
@@ -54,4 +55,10 @@ public class RammingSpeedEnemy : BasicCubeEnemy
         
     }
 
+    public override void HandleEnemyDeath()
+    {
+        _ramStick.SetActive(false);
+        base.HandleEnemyDeath();
+
+    }
 }

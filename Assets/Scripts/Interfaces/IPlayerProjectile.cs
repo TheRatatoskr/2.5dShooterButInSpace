@@ -6,7 +6,7 @@ public interface IPlayerProjectile
 {
 
     public void ProjectileHitEnemy();
-
+    public void HandleScannerDetectedSomething(Collider2D scannedObject);
 
 
 }

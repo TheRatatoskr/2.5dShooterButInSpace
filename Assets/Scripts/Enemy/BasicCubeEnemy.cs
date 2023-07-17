@@ -5,47 +5,47 @@ using UnityEngine;
 public class BasicCubeEnemy : MonoBehaviour, IEnemy
 {
     [Header("Basic Movement")]
-    [SerializeField] public float _moveSpeed = 1f;
+    [SerializeField] protected float _moveSpeed = 4f;
     
     [Header("Left and Right movement variance")]
-    [SerializeField] private float _crabSpeed = 1f;
-    [SerializeField] private float _maxShuffle = 1f;
+    [SerializeField] protected float _crabSpeed = 1f;
+    [SerializeField] protected float _maxShuffle = 1f;
 
     [Header("Top and Bottom bounds")]
-    [SerializeField] private float _respawningLocation = 1f;
-    [SerializeField] private float _maxDownDistance = 1f;
+    [SerializeField] protected float _respawningLocation = 10f;
+    [SerializeField] protected float _maxDownDistance = -8f;
 
     [Header("Left and Right bounds")]
-    [SerializeField] private float _respawnLeftBound;
-    [SerializeField] private float _respawnRightBound;
+    [SerializeField] protected float _respawnLeftBound = -10f;
+    [SerializeField] protected float _respawnRightBound = 10f;
 
     [Header("Stats")]
-    [SerializeField] private int _contactDamage = 1;
+    [SerializeField] protected int _contactDamage = 1;
 
-    private SpawnManager _spawnManager;
+    protected SpawnManager _spawnManager;
 
-    private bool _isAlive = true;
+    protected bool _isAlive = true;
 
     [Header("Animation Controls")]
-    [SerializeField] private Animator _anim;
-    [SerializeField] private float _destroyObjectDelay = 2.8f;
+    [SerializeField] protected Animator _anim;
+    [SerializeField] protected float _destroyObjectDelay = 2.8f;
 
-    private AudioSource _audioSource;
+    protected AudioSource _audioSource;
 
     [Header("Sound Stuff")]
-    [SerializeField] private AudioClip _explosion;
-    [SerializeField] private AudioClip _laserNoises;
+    [SerializeField] protected AudioClip _explosion;
+    [SerializeField] protected AudioClip _laserNoises;
 
     [Header("Projectiles")]
-    [SerializeField] private GameObject _laser;
-    [SerializeField] private List<Vector3> _fireLocations;
-    [SerializeField] private GameObject _laserBox;
-    [SerializeField] private float _fireRate;
-    private float _canFire = -1f;
-    private bool _stopShooting = false;
+    [SerializeField] protected GameObject _laser;
+    [SerializeField] protected List<Vector3> _fireLocations;
+    [SerializeField] protected GameObject _laserBox;
+    [SerializeField] protected float _fireRate = 4f;
+    protected float _canFire = -1f;
+    protected bool _stopShooting = false;
 
-    private bool _isShielded = false;
-    [SerializeField] private GameObject _shieldSprite;
+    protected bool _isShielded = false;
+    [SerializeField] protected GameObject _shieldSprite;
 
     private void Update()
     {
@@ -138,7 +138,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
 
 
-    public void HandleEnemyDeath()
+    public virtual void HandleEnemyDeath()
     {
         if(_isShielded)
         {
@@ -171,7 +171,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         Destroy(this.gameObject, _destroyObjectDelay);
     }
 
-    private void PlayAudio(AudioClip clip)
+    protected void PlayAudio(AudioClip clip)
     {
         if (clip == null)
         {
@@ -183,13 +183,13 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         _audioSource.Play();
     }
 
-    private void RandomShooting()
+    public virtual void RandomShooting()
     {
         if (_stopShooting) { return; }
 
-        GameObject ShootyLaser = Instantiate(_laser, transform.position + _fireLocations[Random.Range(0, 1)], Quaternion.identity);
+        GameObject shootyLaser = Instantiate(_laser, transform.position + _fireLocations[Random.Range(0, 1)], Quaternion.identity);
 
-        ShootyLaser.transform.parent = _laserBox.transform;
+        shootyLaser.transform.parent = _laserBox.transform;
 
         PlayAudio(_laserNoises);
     }

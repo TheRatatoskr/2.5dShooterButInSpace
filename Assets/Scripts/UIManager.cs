@@ -63,8 +63,7 @@ public class UIManager : MonoBehaviour
     public void ChangeBoostMeter(float fillPercent)
     {
        _lightningBoost.fillAmount = fillPercent;
-        Debug.Log(fillPercent.ToString());
-    }
+          }
 
     public void ChangeEnemyRemainingText(string newValue)
     {

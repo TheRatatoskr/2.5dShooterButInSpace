@@ -81,4 +81,9 @@ public class Bananarang : MonoBehaviour, IPlayerProjectile
         transform.position = Vector2.MoveTowards(transform.position, _playerObject.transform.position, _moveSpeed * _returnSpeed * Time.deltaTime);
 
     }
+
+    public void HandleScannerDetectedSomething(Collider2D scannedObject)
+    {
+        //not used on this object.
+    }
 }

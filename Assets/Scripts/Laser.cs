@@ -31,7 +31,6 @@ public class Laser : MonoBehaviour, IPlayerProjectile
             case "Enemy":
                 ProjectileHitEnemy();
                 break;
-
             default:
                 Debug.Log("Projectile hit unknown item");
                 break;
@@ -49,5 +48,8 @@ public class Laser : MonoBehaviour, IPlayerProjectile
         Destroy(this.gameObject);
     }
 
-
+    public void HandleScannerDetectedSomething(Collider2D scannedObject)
+    {
+        //not used on basic projectile
+    }
 }

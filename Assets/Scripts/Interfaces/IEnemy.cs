@@ -16,4 +16,5 @@ public interface IEnemy
     public void HandleScannerDetection(Collider2D collision);
     public void HandleScannerLostDetection(Collider2D collision);
 
+    public void RandomShooting();
 }

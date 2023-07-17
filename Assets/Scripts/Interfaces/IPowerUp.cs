@@ -6,4 +6,5 @@ public interface IPowerUp
 {
     public int PlayerPickedMeUp();
     public void PowerUpDespawn();
+    public void SendToPlayer(Vector3 playerPosition);
 }

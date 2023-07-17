@@ -54,6 +54,9 @@ MonoBehaviour:
   - {fileID: 1079966519799618278, guid: 2de0dbb8c3417064e8ed5fa95c319f55, type: 3}
   - {fileID: 2950231592379293196, guid: 63033914cdaf20245ad842d1eecce6fa, type: 3}
   - {fileID: 8947022276338535763, guid: ce700722f81209b499890df1c256a423, type: 3}
+  - {fileID: 1079373093996684244, guid: 60fc0c1535cc9d840a30f5d89c308ec4, type: 3}
+  - {fileID: 1079966519799618278, guid: 1cddf7eb775759540adfa81c98ed5cff, type: 3}
+  - {fileID: 1767019128629615645, guid: 6a604e92a41c8904194a8f9549d4958d, type: 3}
   _powerUpList:
   - {fileID: 1012131159974250143, guid: 14176a2b39a95744a9b92b189239f2ac, type: 3}
   - {fileID: 1012131159974250143, guid: 14176a2b39a95744a9b92b189239f2ac, type: 3}
@@ -75,8 +78,8 @@ MonoBehaviour:
   _isSpawning: 1
   _minEnemySpawnTime: 2
   _maxEnemySpawnTime: 4
-  _minPowerUpSpawnTime: 30
-  _maxPowerUpSpawnTime: 40
+  _minPowerUpSpawnTime: 10
+  _maxPowerUpSpawnTime: 12
   _player: {fileID: 3977341810560206084, guid: 0e23f7c96463f6945a66d9867687500f, type: 3}
   _startShieldEnemyWave: 5
   _chanceOfUnshieldedEnemy: 70

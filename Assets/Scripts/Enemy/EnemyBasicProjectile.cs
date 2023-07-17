@@ -32,6 +32,11 @@ public class EnemyBasicProjectile : MonoBehaviour
             case "PlayerProjectile":
                 ProjectileHitPlayer();
                 break;
+            case "PlayerPowerUp":
+                collision.gameObject.GetComponent<IPowerUp>().PowerUpDespawn();
+                ProjectileHitPlayer();
+                break;
+
             default:
                 break;
         }

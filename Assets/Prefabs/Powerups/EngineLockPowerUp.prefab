@@ -120,12 +120,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 4
+  _moveSpeedMultiplier: 2
   _despawnYLocation: -10
   _despawnTime: 10
   _whoAmI: 51
   _minXPosition: -10
   _maxXPosition: 10
-  _moveSpeed: 3
+  _movementSpeed: 3
   _crabSpeed: -4
 --- !u!1001 &4539605506679900658
 PrefabInstance:

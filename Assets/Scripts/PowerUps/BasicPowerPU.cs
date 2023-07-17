@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class BasicPowerPU : MonoBehaviour, IPowerUp
 {
-    [SerializeField] private float _moveSpeed = 4f;
-    [SerializeField] private float _despawnYLocation;
-    [SerializeField] private float _despawnTime;
-    private float _spawnTime;
+    [SerializeField] protected float _moveSpeed = 4f;
+    [SerializeField] protected float _moveSpeedMultiplier = 2f;
 
-    [SerializeField] private int _whoAmI;
+    [SerializeField] protected float _despawnYLocation;
+    [SerializeField] protected float _despawnTime;
+    protected float _spawnTime;
+    protected Vector3 _playerCallPosition;
+
+
+    [SerializeField] protected int _whoAmI;
+
+    protected bool _goToPlayer = false;
+
 
     private void Start()
     {
@@ -32,7 +39,14 @@ public class BasicPowerPU : MonoBehaviour, IPowerUp
 
     public virtual void HandlePowerUpMovement()
     {
-        transform.Translate(new Vector2(0, _moveSpeed * Time.deltaTime));
+        if (_goToPlayer)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _playerCallPosition, -_moveSpeed * _moveSpeedMultiplier * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(new Vector2(0, _moveSpeed * Time.deltaTime));
+        }
     }
 
     public int PlayerPickedMeUp()
@@ -43,5 +57,12 @@ public class BasicPowerPU : MonoBehaviour, IPowerUp
     public void PowerUpDespawn()
     {
         Destroy(this.gameObject);
+    }
+
+    public void SendToPlayer(Vector3 playerPosition)
+    {
+        _playerCallPosition = playerPosition;
+        _goToPlayer = true;
+
     }
 }
