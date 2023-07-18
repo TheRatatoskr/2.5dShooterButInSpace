@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [Tooltip("Define how fast the player moves speed up.")]
     [SerializeField] private float _boostedSpeed = 10f;
 
+    [Header("Engine Lock Settings")]
     [SerializeField] private float _engineLockSpeed = 0f;
     [SerializeField] private float _engineLockRate = .1f;
     [SerializeField] private float _engineLockDelay = 1f;

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
-
+    [Header("Spawning Lists")]
     [SerializeField] private List<GameObject> _enemyList;
     [SerializeField] private List<GameObject> _powerUpList;
 
@@ -18,30 +18,47 @@ public class SpawnManager : MonoBehaviour
     [Tooltip("Define how far to the right to spawn entities")]
     [SerializeField] private float _spawnLocationXRight;
 
-    [SerializeField] private bool _isSpawning;
+    
 
+    [Header("Spawn Timing Settings")]
     [SerializeField] private float _minEnemySpawnTime;
     [SerializeField] private float _maxEnemySpawnTime;
 
     [SerializeField] private float _minPowerUpSpawnTime;
     [SerializeField] private float _maxPowerUpSpawnTime;
 
-    [SerializeField] private GameObject _player;
-
+    [Header("Shielded Enemy Settings")]
     [SerializeField] private int _startShieldEnemyWave;
     [SerializeField] private int _chanceOfUnshieldedEnemy;
 
+    [Header("Spawn Containers")]
     [SerializeField] private GameObject _enemyContainer;
-
     [SerializeField] private GameObject _powerUpContainer;
-
     [SerializeField] private GameObject _uiManager;
-
+    [SerializeField] private GameObject _player;
     [SerializeField] private int _waveEnemyCountModifier;
     
+    [Space(5)]
+    [SerializeField] GameObject _startingAsteroid;
+    [Space(5)]
+
+    [Header("Boss Wave Settings")]
+    [SerializeField] private float _earliestPossibleBossWave;
+    [SerializeField] private GameObject _bossEnemyShipObject;
+    [SerializeField] private float _chanceOfBossWave = 50f;
+    [SerializeField] private bool _isBossWave = false;
+    [SerializeField] private string _bossWaveText = "Danger!";
+    [SerializeField] private float _lengthOfWarningFlashing = 5f;
+    [SerializeField] private float _lengthOfBossFlyIn = 5f;
+    [SerializeField] private float _bossWaveChanceMultiplier = 5f;
+    [SerializeField] private float _waitForNextWaveTime = 5f;
+    [SerializeField] private int _bonusBossPoints = 10;
+
     private List<GameObject> _currentListOfEnemies;
 
-    [SerializeField]  private GameObject _thePlayer;
+    private bool _isSpawning;
+
+    private GameObject _thePlayer;
 
     private int _currentWave = 0;
 
@@ -53,19 +70,7 @@ public class SpawnManager : MonoBehaviour
 
     private bool _allowRestart = false;
 
-    [SerializeField] private int numberOfEnemiesInWave;
-    [SerializeField] GameObject _startingAsteroid;
-
-    [SerializeField] private float _earliestPossibleBossWave;
-    [SerializeField] private GameObject _bossEnemeyShipObject;
-    [SerializeField] private float _chanceOfBossWave = 50f;
-    [SerializeField] private bool _isBossWave = false;
-    [SerializeField] private string _bossWaveText = "Danger!";
-    [SerializeField] private float _lengthOfWarningFlashing = 5f;
-    [SerializeField] private float _lengthOfBossFlyIn = 5f;
-    [SerializeField] private float _bossWaveChanceMultiplier = 5f;
-    [SerializeField] private float _waitForNextWaveTime = 5f;
-
+    private int numberOfEnemiesInWave;
 
     private void Start()
     {
@@ -274,7 +279,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(_lengthOfWarningFlashing);
         _ui.StopTheWarningScreen();
 
-        GameObject newEnemy = Instantiate(_bossEnemeyShipObject, new Vector3(0, _spawnLocationY, 0), Quaternion.identity);
+        GameObject newEnemy = Instantiate(_bossEnemyShipObject, new Vector3(0, _spawnLocationY, 0), Quaternion.identity);
         newEnemy.transform.parent = _enemyContainer.transform;
         newEnemy.GetComponent<IEnemy>().InitializeEnemy(this);
 
@@ -290,10 +295,13 @@ public class SpawnManager : MonoBehaviour
         _chanceOfBossWave = 0f;
         for (int i = 0; i >= transform.childCount; i++)
         {
+            _currentScore++;
+            UpdateUIOnEnemyDeath();
             Destroy(_enemyContainer.transform.GetChild(0));
         }
 
-            
+        _currentScore += _bonusBossPoints;
+        UpdateUIOnEnemyDeath();
         StartCoroutine(WaitToStartWave());
         
     }

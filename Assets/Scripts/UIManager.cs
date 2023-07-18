@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _waveText;
     [SerializeField] private TMP_Text _enemiesRemainingText;
 
+    [Header("Warning Text Settings")]
     [SerializeField] private GameObject _warningText;
     [SerializeField] private float _warningFlashTime = 1.0f;
     private bool _warningFlash = false;

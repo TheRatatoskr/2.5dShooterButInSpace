@@ -463,9 +463,9 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 1, a: 1}
   _shieldObject: {fileID: 4223960866940836193}
   _maxAmmo: 100
-  _minStartingAmmo: 20
-  _minAmmoUp: 5
-  _maxAmmoUp: 10
+  _minStartingAmmo: 40
+  _minAmmoUp: 10
+  _maxAmmoUp: 20
   _shakeStrength: 0.1
   _shakeLength: 0.2
 --- !u!1 &4223960866940836193

@@ -135,18 +135,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpawnManager
       objectReference: {fileID: 0}
-    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
-      propertyPath: _chanceOfBossWave
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
-      propertyPath: _waveEnemyCountModifier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2320990581887598573, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
-      propertyPath: _earliestPossibleBossWave
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 6522001502382919053, guid: f7dcd2fa0a995bc42a30529a7c2fd9f1, type: 3}
       propertyPath: m_RootOrder
       value: 1

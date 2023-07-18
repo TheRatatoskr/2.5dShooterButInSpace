@@ -316,7 +316,7 @@ MonoBehaviour:
   _bottomLeftCorner: {fileID: 7345550016850815767}
   _topRightCorner: {fileID: 8115268424767119619}
   _explosionTime: 4
-  _bossHealth: 3
+  _bossHealth: 20
   _bossMaterialObject: {fileID: 5182664379318993918}
   _damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
   _flashlength: 0.1
