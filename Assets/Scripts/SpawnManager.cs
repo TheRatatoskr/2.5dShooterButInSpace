@@ -56,6 +56,16 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private int numberOfEnemiesInWave;
     [SerializeField] GameObject _startingAsteroid;
 
+    [SerializeField] private float _earliestPossibleBossWave;
+    [SerializeField] private GameObject _bossEnemeyShipObject;
+    [SerializeField] private float _chanceOfBossWave = 50f;
+    [SerializeField] private bool _isBossWave = false;
+    [SerializeField] private string _bossWaveText = "Danger!";
+    [SerializeField] private float _lengthOfWarningFlashing = 5f;
+    [SerializeField] private float _lengthOfBossFlyIn = 5f;
+    [SerializeField] private float _bossWaveChanceMultiplier = 5f;
+
+
 
     private void Start()
     {
@@ -100,23 +110,42 @@ public class SpawnManager : MonoBehaviour
 
     private void SetupAWave()
     {
+        Debug.Log("SetupWave is called");
+
+        _isBossWave = false;
+
         _currentWave++;
 
-        _currentListOfEnemies = new List<GameObject>();
-        numberOfEnemiesInWave = _currentWave * _waveEnemyCountModifier + Random.Range(1, _currentWave);
-
-        int enemyTypeCounter = _currentWave -1;
-
-        if (enemyTypeCounter > _enemyList.Count)
+        if(_currentWave >= _earliestPossibleBossWave)
         {
-            enemyTypeCounter = _enemyList.Count - 1;
-        }
+            float randomRoll = Random.Range(0, 100);
+            if(randomRoll < _chanceOfBossWave)
+            {
+                _isBossWave = true;
+                StartCoroutine(StartBossWave());
+                _waveComplete = false;
+                return;
+                
+            }
 
-        for(int i = 0; i < numberOfEnemiesInWave; i++)
-        {
-            _currentListOfEnemies.Add(_enemyList[Random.Range(0, enemyTypeCounter)]);
         }
+        
+            _currentListOfEnemies = new List<GameObject>();
+            numberOfEnemiesInWave = _currentWave * _waveEnemyCountModifier + Random.Range(1, _currentWave);
 
+            int enemyTypeCounter = _currentWave - 1;
+
+            if (enemyTypeCounter > _enemyList.Count)
+            {
+                enemyTypeCounter = _enemyList.Count - 1;
+            }
+
+            for (int i = 0; i < numberOfEnemiesInWave; i++)
+            {
+                _currentListOfEnemies.Add(_enemyList[Random.Range(0, enemyTypeCounter)]);
+            }
+
+        
         _waveComplete = false;
         _isSpawning = true;
 
@@ -127,6 +156,7 @@ public class SpawnManager : MonoBehaviour
         {
             StartSpawningDoods();
         }
+        _chanceOfBossWave += _bossWaveChanceMultiplier;
     }
 
     public void StartSpawningDoods()
@@ -171,6 +201,7 @@ public class SpawnManager : MonoBehaviour
             {
                 _isSpawning = false;
                 _waveComplete = true;
+                
             }
             yield return new WaitForSeconds(Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime));
         }
@@ -230,5 +261,39 @@ public class SpawnManager : MonoBehaviour
 
 
 
+    }
+
+    IEnumerator StartBossWave()
+    {
+        Debug.Log("Boss Wave Co Called");
+
+        _ui.ChangeCurrentWaveCounter(_bossWaveText);
+        _ui.ChangeEnemyRemainingText(_bossWaveText);
+
+        _ui.StartTheWarningScreen();
+        yield return new WaitForSeconds(_lengthOfWarningFlashing);
+        _ui.StopTheWarningScreen();
+
+        GameObject newEnemy = Instantiate(_bossEnemeyShipObject, new Vector3(0, _spawnLocationY, 0), Quaternion.identity);
+        newEnemy.transform.parent = _enemyContainer.transform;
+        newEnemy.GetComponent<IEnemy>().InitializeEnemy(this);
+
+        yield return new WaitForSeconds(_lengthOfBossFlyIn);
+
+        _waveComplete = false;
+        _isSpawning = true;
+        StartCoroutine(SpawnSomePowerUp());
+
+    }
+    public void StopTheBossWave()
+    {
+        _chanceOfBossWave = 0f;
+        while (transform.childCount > 0)
+        {
+            Destroy(_enemyContainer.transform.GetChild(0));
+        }
+            SetupAWave();
+        
+        
     }
 }

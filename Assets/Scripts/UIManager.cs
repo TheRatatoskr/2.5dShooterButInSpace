@@ -27,8 +27,10 @@ public class UIManager : MonoBehaviour
     [Header("Wave Information")]
     [SerializeField] private TMP_Text _waveText;
     [SerializeField] private TMP_Text _enemiesRemainingText;
-    
 
+    [SerializeField] private GameObject _warningText;
+    [SerializeField] private float _warningFlashTime = 1.0f;
+    private bool _warningFlash = false;
 
     private bool _isGameOver = false;
 
@@ -85,6 +87,7 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(_flickerSpeed);
         }
     }
+
     public void LockedBoostMeter()
     {
         _lightningBoost.fillAmount = .99f;
@@ -93,10 +96,32 @@ public class UIManager : MonoBehaviour
 
 
     }
+
     public void UnlockBoostMeter()
     {
         _lightningBoost.fillAmount = 0f;
 
+    }
 
+    public void StartTheWarningScreen()
+    {
+        _warningFlash = true;
+        StartCoroutine(FlashTheWarningScreen());
+
+    }
+    public void StopTheWarningScreen()
+    {
+        _warningFlash = false;
+    }
+    IEnumerator FlashTheWarningScreen()
+    {
+        while (_warningFlash) 
+        {
+            _warningText.SetActive(true);
+            yield return new WaitForSeconds(_warningFlashTime);
+            _warningText.SetActive(false);
+            yield return new WaitForSeconds(_warningFlashTime);
+
+        }
     }
 }

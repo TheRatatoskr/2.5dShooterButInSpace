@@ -79,7 +79,7 @@ MonoBehaviour:
   _minEnemySpawnTime: 2
   _maxEnemySpawnTime: 4
   _minPowerUpSpawnTime: 10
-  _maxPowerUpSpawnTime: 12
+  _maxPowerUpSpawnTime: 20
   _player: {fileID: 3977341810560206084, guid: 0e23f7c96463f6945a66d9867687500f, type: 3}
   _startShieldEnemyWave: 5
   _chanceOfUnshieldedEnemy: 70
@@ -87,8 +87,17 @@ MonoBehaviour:
   _powerUpContainer: {fileID: 2577323476948049230}
   _uiManager: {fileID: 6740445346678354864, guid: 5a92f4bc5712f7b41bbeb41b9e744d51, type: 3}
   _waveEnemyCountModifier: 2
+  _thePlayer: {fileID: 0}
   numberOfEnemiesInWave: 0
   _startingAsteroid: {fileID: 3935095814543298669, guid: c750b4e433de037409543bc2d3377a1e, type: 3}
+  _earliestPossibleBossWave: 2
+  _bossEnemeyShipObject: {fileID: 7795282253606198598, guid: 0ac75a661e80cd044abbf5728f11e196, type: 3}
+  _chanceOfBossWave: 25
+  _isBossWave: 0
+  _bossWaveText: Danger!
+  _lengthOfWarningFlashing: 5
+  _lengthOfBossFlyIn: 5
+  _bossWaveChanceMultiplier: 5
 --- !u!1 &2577323476948049230
 GameObject:
   m_ObjectHideFlags: 0
