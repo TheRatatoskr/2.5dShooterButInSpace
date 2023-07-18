@@ -28,8 +28,14 @@ public class HomingRocket : MonoBehaviour, IPlayerProjectile
 
     private void HandleMovement()
     {
+        if (_detectedEnemy == null)
+        {
+            _enemyDetected = false;
+        }
+
         if (_enemyDetected)
         {
+
             transform.position = Vector2.MoveTowards(transform.position, _detectedEnemy.transform.position, _moveSpeed * Time.deltaTime);
 
             Vector3 direction = transform.position - _detectedEnemy.transform.position;
