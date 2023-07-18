@@ -238,7 +238,16 @@ public class SpawnManager : MonoBehaviour
     public void AMurderWasReported()
     {
         _currentScore++;
-        numberOfEnemiesInWave--;
+
+        if (!_isBossWave)
+        {
+            numberOfEnemiesInWave--;
+            if (numberOfEnemiesInWave < 0)
+            {
+                numberOfEnemiesInWave = 0;
+            }
+        }
+
         UpdateUIOnEnemyDeath();
     }
 
@@ -300,6 +309,7 @@ public class SpawnManager : MonoBehaviour
             Destroy(_enemyContainer.transform.GetChild(0));
         }
 
+        _isBossWave = false;
         _currentScore += _bonusBossPoints;
         UpdateUIOnEnemyDeath();
         StartCoroutine(WaitToStartWave());

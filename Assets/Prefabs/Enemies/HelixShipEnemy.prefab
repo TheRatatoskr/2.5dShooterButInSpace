@@ -354,7 +354,7 @@ MonoBehaviour:
   _respawnRightBound: 10
   _contactDamage: 1
   _anim: {fileID: 8233090625327680339}
-  _destroyObjectDelay: 2.8
+  _destroyObjectDelay: 1.4
   _explosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _laserNoises: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _laser: {fileID: 8749097590140838528, guid: a6e9794da8fecaa41845d3ee7f16005e, type: 3}

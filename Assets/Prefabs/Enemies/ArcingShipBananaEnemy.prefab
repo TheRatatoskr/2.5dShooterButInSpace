@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 8498448448676711697}
   m_Layer: 0
   m_Name: ArcingShipBananaEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -333,7 +333,7 @@ MonoBehaviour:
   _respawnRightBound: 10
   _contactDamage: 1
   _anim: {fileID: 7426444175206390821}
-  _destroyObjectDelay: 2.8
+  _destroyObjectDelay: 1.4
   _explosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _laserNoises: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _laser: {fileID: 7354514472639892778, guid: 643ca946d1eeb8f48a925280d733bd8e, type: 3}

@@ -116,7 +116,7 @@ MonoBehaviour:
   _whoAmI: 11
   _minXPosition: -10
   _maxXPosition: 10
-  _movementSpeed: 3
+  _movementSpeed: -3
   _crabSpeed: -4
 --- !u!1 &6095409785966651062
 GameObject:

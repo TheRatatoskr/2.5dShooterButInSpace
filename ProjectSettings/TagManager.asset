@@ -9,6 +9,7 @@ TagManager:
   - PlayerPowerUp
   - Wall
   - AudioController
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX

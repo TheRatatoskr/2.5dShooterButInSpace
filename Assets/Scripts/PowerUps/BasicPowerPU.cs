@@ -42,6 +42,10 @@ public class BasicPowerPU : MonoBehaviour, IPowerUp
         if (_goToPlayer)
         {
             transform.position = Vector3.MoveTowards(transform.position, _playerCallPosition, -_moveSpeed * _moveSpeedMultiplier * Time.deltaTime);
+            if (transform.position == _playerCallPosition)
+            {
+                _goToPlayer = false;
+            }
         }
         else
         {

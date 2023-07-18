@@ -78,7 +78,10 @@ public class Bananarang : MonoBehaviour, IPlayerProjectile
 
     private void ReturningToPlayer()
     {
+        if( _playerObject != null ) 
+        { 
         transform.position = Vector2.MoveTowards(transform.position, _playerObject.transform.position, _moveSpeed * _returnSpeed * Time.deltaTime);
+        }
 
     }
 

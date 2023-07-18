@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8947547412692627927}
   m_Layer: 0
   m_Name: EngineLockPowerUp
-  m_TagString: Untagged
+  m_TagString: PlayerPowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   _whoAmI: 51
   _minXPosition: -10
   _maxXPosition: 10
-  _movementSpeed: 3
+  _movementSpeed: -3
   _crabSpeed: -4
 --- !u!1001 &4539605506679900658
 PrefabInstance:
