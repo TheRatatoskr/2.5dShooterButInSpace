@@ -47,6 +47,9 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     protected bool _isShielded = false;
     [SerializeField] protected GameObject _shieldSprite;
 
+    [SerializeField] private GameObject _explosionObject;
+
+
     private void Update()
     {
         if (_isAlive)
@@ -155,7 +158,8 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
         Destroy(GetComponent<Collider2D>());
 
         //make big boom happen
-        _anim.SetTrigger("OnEnemyWentBoom");
+        //_anim.SetTrigger("OnEnemyWentBoom");
+        Instantiate(_explosionObject, transform.position, Quaternion.identity);
 
         _isAlive = false;
 

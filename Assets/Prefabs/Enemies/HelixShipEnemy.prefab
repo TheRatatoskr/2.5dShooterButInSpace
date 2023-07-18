@@ -364,6 +364,7 @@ MonoBehaviour:
   _laserBox: {fileID: 7308494739432278946}
   _fireRate: 3
   _shieldSprite: {fileID: 3623555094359693156}
+  _explosionObject: {fileID: 6804625988486706145, guid: 87191c204c581a44f87b6aa3d9c08821, type: 3}
   _flightSpeed: 4
   _sideSpeedMax: 4
   _sideSpeedAccel: 0.1

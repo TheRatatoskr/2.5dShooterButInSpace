@@ -336,6 +336,7 @@ MonoBehaviour:
   _laserBox: {fileID: 4576896916010872010}
   _fireRate: 4
   _shieldSprite: {fileID: 716015849881298383}
+  _explosionObject: {fileID: 6804625988486706145, guid: 87191c204c581a44f87b6aa3d9c08821, type: 3}
   _backwardsLaser: {fileID: 1841278197915172291, guid: a97487e680d89bd4a80d7df41c302768, type: 3}
   _cannonSprite1: {fileID: 6728605481565410188}
   _cannonSprite2: {fileID: 2523639335217485843}

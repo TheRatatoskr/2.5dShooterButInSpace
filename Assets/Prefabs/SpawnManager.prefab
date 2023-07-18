@@ -75,9 +75,9 @@ MonoBehaviour:
   _spawnLocationY: 11
   _spawnLocationXLeft: -10
   _spawnLocationXRight: 10
-  _minEnemySpawnTime: 2
-  _maxEnemySpawnTime: 4
-  _minPowerUpSpawnTime: 4
+  _minEnemySpawnTime: 5
+  _maxEnemySpawnTime: 7
+  _minPowerUpSpawnTime: 5
   _maxPowerUpSpawnTime: 7
   _startShieldEnemyWave: 5
   _chanceOfUnshieldedEnemy: 70
@@ -95,7 +95,7 @@ MonoBehaviour:
   _lengthOfWarningFlashing: 5
   _lengthOfBossFlyIn: 5
   _bossWaveChanceMultiplier: 5
-  _waitForNextWaveTime: 5
+  _waitForNextWaveTime: 10
   _bonusBossPoints: 10
 --- !u!1 &2577323476948049230
 GameObject:
