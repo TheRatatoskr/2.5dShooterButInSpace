@@ -64,7 +64,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _lengthOfWarningFlashing = 5f;
     [SerializeField] private float _lengthOfBossFlyIn = 5f;
     [SerializeField] private float _bossWaveChanceMultiplier = 5f;
-
+    [SerializeField] private float _waitForNextWaveTime = 5f;
 
 
     private void Start()
@@ -288,12 +288,18 @@ public class SpawnManager : MonoBehaviour
     public void StopTheBossWave()
     {
         _chanceOfBossWave = 0f;
-        while (transform.childCount > 0)
+        for (int i = 0; i >= transform.childCount; i++)
         {
             Destroy(_enemyContainer.transform.GetChild(0));
         }
-            SetupAWave();
+
+            
+        StartCoroutine(WaitToStartWave());
         
-        
+    }
+    IEnumerator WaitToStartWave()
+    {
+        yield return new WaitForSeconds(_waitForNextWaveTime);
+        SetupAWave();
     }
 }

@@ -66,7 +66,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        Debug.Log("Collision:" + other.gameObject.name);
+        
         switch (other.gameObject.tag)
         {
             case "Player":
@@ -82,7 +82,7 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
                 break;
 
             default:
-                Debug.Log(gameObject.name + " collided with something thats untagged");
+                
                 break;
         }
     }
@@ -173,6 +173,11 @@ public class BasicCubeEnemy : MonoBehaviour, IEnemy
 
     protected void PlayAudio(AudioClip clip)
     {
+        if (_audioSource == null)
+        {
+            Debug.Log("audio source is null.");
+            return;
+        }
         if (clip == null)
         {
             Debug.Log("No clip got assigned to enemy audio source");

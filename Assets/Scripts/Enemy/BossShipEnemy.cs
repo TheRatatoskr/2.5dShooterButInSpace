@@ -39,6 +39,8 @@ public class BossShipEnemy : BasicCubeEnemy
 
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         _isAlive = false;
         _stopShooting = true;
         _bossMaterial = _bossMaterialObject.GetComponent<Renderer>().material;
@@ -102,7 +104,7 @@ public class BossShipEnemy : BasicCubeEnemy
         shootyLaser1.transform.parent = _laserBox.transform;
         shootyLaser2.transform.parent = _laserBox.transform;
 
-        //PlayAudio(_laserNoises);
+        PlayAudio(_laserNoises);
     }
 
     public override void HandleEnemyMovement()
@@ -152,6 +154,7 @@ public class BossShipEnemy : BasicCubeEnemy
             yield return new WaitForSeconds(_spawnSpeed);
             
             GameObject newDood = Instantiate(_spawnableDoods[Random.Range(0, _spawnableDoods.Count)], spawnLocation.position, Quaternion.identity);
+            newDood.GetComponent<IEnemy>().InitializeEnemy(_spawnManager);
             newDood.transform.parent = _spawnManager.gameObject.transform.GetChild(0);
             
 
@@ -168,9 +171,10 @@ public class BossShipEnemy : BasicCubeEnemy
             float yPosition = Random.Range(_bottomLeftCorner.position.y, _topRightCorner.position.y);
 
             Instantiate(_smallExplosion, new Vector3(xPosition,yPosition,-.2f), Quaternion.identity);
+            //yield return new WaitForSeconds(.1f) ;
             yield return new WaitForEndOfFrame();
 
-            
+
         }
         _spawnManager.StopTheBossWave();
         Destroy(this.gameObject);
