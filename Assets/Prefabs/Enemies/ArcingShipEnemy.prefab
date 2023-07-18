@@ -344,7 +344,7 @@ MonoBehaviour:
   _fireRate: 3
   _shieldSprite: {fileID: 1389196903342742774}
   _flightSpeed: 4
-  _maxSideSpeed: 3
+  _maxSideSpeed: 1.5
   _arcSpeed: 0.01
   _isLeft: 0
 --- !u!1 &3455599675509936497
